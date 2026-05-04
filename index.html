@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffdead",
+                        "on-surface": "#e5e2e3",
+                        "on-secondary-fixed": "#2f1500",
+                        "error-container": "#93000a",
+                        "tertiary": "#bad6ff",
+                        "surface-container-low": "#1c1b1c",
+                        "tertiary-container": "#93bbf1",
+                        "surface-tint": "#f2be6a",
+                        "outline-variant": "#4f4538",
+                        "surface-container-highest": "#353436",
+                        "on-tertiary-container": "#1d4b7a",
+                        "surface-container-high": "#2a2a2b",
+                        "on-tertiary-fixed": "#001c38",
+                        "on-tertiary": "#00315b",
+                        "surface-container": "#201f20",
+                        "on-background": "#e5e2e3",
+                        "on-primary-fixed": "#281900",
+                        "on-primary-container": "#634300",
+                        "outline": "#9b8f7f",
+                        "surface-container-lowest": "#0e0e0f",
+                        "secondary-fixed-dim": "#ffb77f",
+                        "tertiary-fixed-dim": "#a2c9ff",
+                        "primary-container": "#e2b05e",
+                        "inverse-surface": "#e5e2e3",
+                        "primary": "#ffcc7a",
+                        "on-tertiary-fixed-variant": "#1a4877",
+                        "on-surface-variant": "#d3c4b3",
+                        "tertiary-fixed": "#d3e4ff",
+                        "secondary-fixed": "#ffdcc4",
+                        "on-secondary": "#4e2600",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#604100",
+                        "surface-dim": "#131314",
+                        "surface-bright": "#3a393a",
+                        "secondary-container": "#ff8a00",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#6f3900",
+                        "inverse-on-surface": "#313031",
+                        "surface-variant": "#353436",
+                        "primary-fixed-dim": "#f2be6a",
+                        "on-primary": "#432c00",
+                        "secondary": "#ffb77f",
+                        "background": "#131314",
+                        "surface": "#131314",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#613100",
+                        "inverse-primary": "#7e5709"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "xl": "80px",
+                        "sm": "12px",
+                        "md": "24px",
+                        "xs": "4px",
+                        "container-max": "1280px",
+                        "lg": "48px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-xl": ["Noto Serif"],
+                        "body-md": ["Space Grotesk"],
+                        "body-lg": ["Space Grotesk"],
+                        "headline-lg": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "label-sm": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-xl": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        html, body {
+            background: transparent !important;
+        }
+        section, .section, main {
+            background: transparent !important;
+        }
+        .card, [class*="card"] {
+            background: rgba(17, 17, 17, 0.75) !important;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .glass-card {
+            background: rgba(20, 20, 22, 0.4);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(242, 190, 106, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(242, 190, 106, 0.4), transparent);
+        }
+        .technical-grid {
+            background-image: radial-gradient(circle at 1px 1px, rgba(242, 190, 106, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md technical-grid antialiased">
+<video autoplay loop muted playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; pointer-events: none;">
+  <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" type="video/mp4"/>
+</video>
+<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.55); z-index: -1; pointer-events: none;"></div>
+<!-- Top Navigation -->
+<nav class="bg-neutral-950/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-amber-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] h-20">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-4 md:px-8 h-full">
+<div class="font-serif text-2xl font-bold tracking-tighter text-amber-500 uppercase">AETHER_GEN</div>
+<button id="mobile-menu-btn" class="md:hidden text-amber-500 p-2">
+  <span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex gap-12 font-serif text-sm tracking-widest uppercase items-center">
+<a class="text-amber-500 border-b border-amber-500 pb-1" href="index.html">Home</a>
+<a class="text-neutral-400 hover:text-amber-200 transition-colors" href="details.html">Details</a>
+<a class="text-neutral-400 hover:text-amber-200 transition-colors" href="rewards.html">Rewards</a>
+<a class="text-neutral-400 hover:text-amber-200 transition-colors" href="registration.html">Registration</a>
+</div>
+<a href="registration.html" class="hidden md:inline-block bg-primary px-6 py-2 text-on-primary font-label-sm uppercase tracking-widest hover:bg-primary-container transition-all active:scale-[0.98]">
+                Initialize Participation
+            </a>
+</div>
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-neutral-950 border-b border-amber-500/20 p-4 flex-col gap-4 shadow-xl md:hidden">
+  <a class="text-amber-500 font-serif text-sm tracking-widest uppercase block p-2" href="index.html">Home</a>
+  <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="details.html">Details</a>
+  <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="rewards.html">Rewards</a>
+  <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="registration.html">Registration</a>
+  <a href="registration.html" class="bg-primary px-6 py-3 mt-2 text-on-primary font-label-sm uppercase tracking-widest text-center w-full block">Initialize Participation</a>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover grayscale brightness-50" data-alt="A high-end cinematic visualization of neural network architecture shimmering with amber light particles against a deep charcoal void. The complex network of nodes and connections looks like a sophisticated digital galaxy, reflecting an elite technical atmosphere. The lighting is focused and dramatic, highlighting the intricate geometric precision of generative AI processes in a minimalist-futurist style." src="https://lh3.googleusercontent.com/aida/ADBb0uio25sBj44suUHXmtRp51a9EWrOFxBhoRTMerM6EfoW5AvfeaYQ950H-W9LdcxlIKbD1JOOscLVVbqNxIIlJelAB53G-hw3xqdqxwoLACDI8rqV1DxFH8oAJ1161GU3vjXikD12kAhIftjJcqW0-YTdeBq7ngzoYRTwOvKKJmPMdgiam2N8nL4BhaFiruEe3xGQe1AXwFvqlKibdzhwU9pMJhe-hmIFM6j8w5ViMJjoxwV6X6IxIUlij_8"/>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto px-8 text-center">
+<div class="inline-flex items-center gap-4 bg-primary/5 border border-primary/20 px-4 py-2 rounded-full mb-8">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-label-sm text-primary">HKBK COLLEGE OF ENGINEERING PRESENTS</span>
+</div>
+<h1 class="font-display-xl text-5xl md:text-display-xl text-on-surface mb-6 leading-tight max-w-4xl mx-auto">
+                Hackathon on <span class="text-primary italic">Generative AI</span>
+</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12 uppercase tracking-[0.2em]">
+                Architecting the Future of Machine Intelligence.
+            </p>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<a href="registration.html" class="bg-primary text-on-primary px-10 py-5 font-label-sm tracking-widest hover:bg-primary-container transition-all flex items-center gap-3">
+                    JOIN THE REVOLUTION
+                    <span class="material-symbols-outlined">trending_flat</span>
+</a>
+
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 mt-20 border-t border-white/5 pt-12 max-w-3xl mx-auto">
+<div>
+<p class="font-label-sm text-primary mb-1">PRIZE POOL</p>
+<p class="font-headline-md text-on-surface font-bold">₹50,000</p>
+</div>
+<div>
+<p class="font-label-sm text-primary mb-1">DATE</p>
+<p class="font-headline-md text-on-surface font-bold">MAY 11-12, 2026</p>
+</div>
+<div class="col-span-2 md:col-span-1">
+<p class="font-label-sm text-primary mb-1">LOCATION</p>
+<p class="font-headline-md text-on-surface font-bold">HKBK CAMPUS</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Partners -->
+<section class="py-20 bg-surface-container-lowest border-y border-white/5">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-12">
+<p class="font-label-sm text-neutral-500 uppercase tracking-widest">Strategic Partnership</p>
+<div class="flex flex-wrap justify-center gap-16 items-center opacity-70 hover:opacity-100 transition-opacity">
+<span class="font-serif text-xl font-bold text-neutral-400 tracking-widest uppercase">BRAINOVISION</span>
+<div class="h-8 w-px bg-white/10 hidden md:block"></div>
+<span class="font-serif text-xl font-bold text-neutral-400 tracking-widest">HKBK COLLEGE</span>
+<div class="h-8 w-px bg-white/10 hidden md:block"></div>
+<span class="font-serif text-xl font-bold text-neutral-400 tracking-widest">AETHER LABS</span>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<section class="py-xl max-w-container-max mx-auto px-8">
+<div class="flex flex-col lg:flex-row gap-16 items-start">
+<!-- Left: Visual Element -->
+<div class="lg:w-1/3 w-full">
+<div class="glass-card aspect-[0.80] p-1 border border-primary/20">
+<img class="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 transition-all duration-700" data-alt="An abstract vertical composition showcasing a fluid, golden digital energy wave moving through a dark, high-contrast space. The golden threads are thin and precise, resembling high-end fiber optic structures or data flows in a futuristic computer system. The mood is one of calculated luxury and high energy, perfectly aligning with the dark charcoal and amber visual theme." src="https://lh3.googleusercontent.com/aida/ADBb0uhqA_iwjIgs1G4fOuHYqiJKvVxZAazuJ8Q903utUowCeSx_qkoRdarvbQ6z1ipGQudS2dzJ_eGOpsAaqHwBHbKmwHA6N5ccULG0voX7qPtrzBueDjo1pULopN4s4fGEw-SKdtNiXwGBAf8pZtORnODBUpIw0X5BzdeYzwoBz_6rWof1P-Q_fvzWK_m5a7sUKE8Ns3JR58CdL9eiTKer7GhLeq8QNhqIQJHkg_GnRPcmLPlZW1nf22r2j1agjBYHMqDQUymt4XDj-Q"/>
+</div>
+<div class="mt-8 p-8 border-l-2 border-primary bg-primary/5">
+<p class="font-headline-md font-serif text-on-surface mb-4">The Evolution Starts with You.</p>
+<p class="text-on-surface-variant font-body-md">Dive deep into the mechanics of Large Language Models, Generative Adversarial Networks, and Diffusion Architectures.</p>
+</div>
+</div>
+<!-- Right: Rewards & Info -->
+<div class="lg:w-2/3 w-full space-y-12">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-lg text-on-surface">Grand <span class="text-primary italic">Rewards</span></h2>
+<div class="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Reward Card 1 -->
+<div class="glass-card p-8 group hover:border-primary/40 transition-colors">
+<div class="flex justify-between items-start mb-12">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-sm text-neutral-600">01</span>
+</div>
+<h3 class="font-headline-md mb-2">Technical Lead</h3>
+<p class="text-primary font-bold text-2xl mb-4">₹25,000</p>
+<p class="text-on-surface-variant text-sm font-body-md">Recognition for the most robust architectural implementation and scalability.</p>
+</div>
+<!-- Reward Card 2 -->
+<div class="glass-card p-8 group hover:border-primary/40 transition-colors">
+<div class="flex justify-between items-start mb-12">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">news</span>
+<span class="font-label-sm text-neutral-600">02</span>
+</div>
+<h3 class="font-headline-md mb-2">Visionary Prize</h3>
+<p class="text-primary font-bold text-2xl mb-4">₹15,000</p>
+<p class="text-on-surface-variant text-sm font-body-md">Awarded for the most creative and disruptive application of generative models.</p>
+</div>
+<!-- Reward Card 3 -->
+<div class="glass-card p-8 group hover:border-primary/40 transition-colors col-span-1 md:col-span-2">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+<div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<h3 class="font-headline-md mb-2">Best First-Time Team</h3>
+<p class="text-primary font-bold text-2xl mb-4">₹10,000</p>
+</div>
+<div class="max-w-md">
+<p class="text-on-surface-variant text-sm font-body-md">Never been to a hackathon before? This award is for the best first-time team at the event. Everyone starts somewhere — make your first one count.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-neutral-950 w-full py-20 border-t border-amber-900/30">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-8">
+<div class="text-amber-500 font-bold uppercase tracking-widest text-lg font-serif">AETHER PROTOCOL</div>
+<div class="flex flex-wrap justify-center gap-8 font-serif text-[10px] tracking-widest uppercase">
+<a class="text-neutral-600 hover:text-amber-200 transition-colors" href="#">The Protocol</a>
+<a class="text-neutral-600 hover:text-amber-200 transition-colors" href="#">Architecture</a>
+<a class="text-neutral-600 hover:text-amber-200 transition-colors" href="#">Privacy</a>
+<a class="text-neutral-600 hover:text-amber-200 transition-colors" href="#">Operational Logistics</a>
+</div>
+<p class="text-neutral-600 font-serif text-[10px] tracking-widest uppercase text-center md:text-right">
+                © 2024 AETHER PROTOCOL. ENGINEERED FOR THE FUTURE OF INTELLIGENCE.
+            </p>
+</div>
+</footer>
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          mobileMenu.classList.toggle('flex');
+      });
+  }
+</script>
+</body></html>
