@@ -144,105 +144,10 @@
 <!-- Hero Section -->
 <header class="mb-xl text-center">
 <h1 class="font-display-xl text-4xl md:text-display-xl text-primary-fixed mb-md">Initialize Participation</h1>
-<p class="text-on-surface-variant max-w-2xl mx-auto text-body-lg">Begin the multi-phase onboarding protocol. Authenticate your standing and secure your position within the Aether ecosystem.</p>
 </header>
-<!-- Multi-Phase Registration Process -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-xl">
-<!-- Phase 1: Payment -->
-<div class="glass-card p-8 rounded-lg flex flex-col h-full border-t-2 border-primary/30">
-<div class="flex items-center justify-between mb-8">
-<span class="text-label-sm font-label-sm text-primary uppercase tracking-[0.2em]">Phase 01</span>
-<span class="material-symbols-outlined text-primary text-3xl">payments</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Financial Protocol</h3>
-<p class="text-on-surface-variant mb-8 flex-grow">Initiate the participation fee to clear administrative verification layers.</p>
-<div class="bg-surface-container p-6 rounded-lg mb-8 text-center border border-outline-variant/30">
-<div class="text-label-sm text-outline mb-2 uppercase tracking-widest">Amount Due</div>
-<div class="text-4xl font-display-xl text-primary-fixed">₹1000</div>
-<div class="mt-4 pt-4 border-t border-white/5 text-center">
-<img id="qr-static" alt="UPI QR Code Payment Gateway" class="mx-auto h-24 object-contain opacity-80 hover:opacity-100 transition-opacity cursor-pointer rounded" src="./qr-scanner.png"/>
-<div class="relative inline-block mt-2 cursor-pointer group" id="upi-text">
-    <p class="text-[10px] text-outline tracking-widest uppercase hover:text-primary transition-colors">UPI ADDRESS: 62792076@hdfcbank</p>
-    <div id="upi-tooltip" class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-neutral-950 text-[10px] font-bold px-2 py-1 rounded opacity-0 invisible transition-all duration-300 whitespace-nowrap z-10 pointer-events-none">
-        UPI ID Copied!
-        <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-primary"></div>
-    </div>
-</div>
-</div>
-</div>
-<button id="enlarge-qr-btn" class="w-full py-4 border border-primary text-primary hover:bg-primary/5 font-label-sm uppercase tracking-widest transition-all">
-                    Enlarge QR
-                </button>
-</div>
-<!-- Phase 2: Data Entry -->
-<div class="glass-card p-8 rounded-lg flex flex-col h-full relative overflow-hidden">
-<div class="absolute inset-0 opacity-10 pointer-events-none">
-<img alt="Data verification background" class="w-full h-full object-cover" data-alt="A macro close-up of a high-resolution liquid crystal display showing streams of encrypted data code flowing vertically. The lighting is moody and focused, with amber highlights catching the edges of digital characters against a deep charcoal background, conveying a sense of intense technical verification and secure data processing." src="https://lh3.googleusercontent.com/aida/ADBb0uhqA_iwjIgs1G4fOuHYqiJKvVxZAazuJ8Q903utUowCeSx_qkoRdarvbQ6z1ipGQudS2dzJ_eGOpsAaqHwBHbKmwHA6N5ccULG0voX7qPtrzBueDjo1pULopN4s4fGEw-SKdtNiXwGBAf8pZtORnODBUpIw0X5BzdeYzwoBz_6rWof1P-Q_fvzWK_m5a7sUKE8Ns3JR58CdL9eiTKer7GhLeq8QNhqIQJHkg_GnRPcmLPlZW1nf22r2j1agjBYHMqDQUymt4XDj-Q"/>
-</div>
-<div class="relative z-10 h-full flex flex-col">
-<div class="flex items-center justify-between mb-8">
-<span class="text-label-sm font-label-sm text-primary uppercase tracking-[0.2em]">Phase 02</span>
-<span class="material-symbols-outlined text-primary text-3xl">terminal</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Verification Input</h3>
-<p class="text-on-surface-variant mb-8">Log the transaction signature to finalize your architectural inclusion.</p>
-<div class="space-y-6 flex-grow">
-<div class="group relative pb-4">
-<label class="block text-label-sm text-outline mb-2 uppercase tracking-widest">Transaction ID</label>
-<input id="transaction-id-input" class="w-full bg-transparent border-b border-outline-variant/50 focus:border-primary focus:ring-0 text-on-surface font-body-md py-2 transition-all outline-none" placeholder="Enter Transaction ID / UTR Number" type="text"/>
-<p id="transaction-error" class="text-error text-xs absolute bottom-0 left-0 hidden">Please enter your Transaction ID</p>
-</div>
-<div class="group relative pb-4">
-<label class="block text-label-sm text-outline mb-2 uppercase tracking-widest">Upload Proof of Payment</label>
-<div id="upload-area" class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-outline-variant/30 border-dashed rounded-lg hover:border-primary/50 transition-colors bg-surface-container-lowest/50 relative overflow-hidden group-hover:border-primary/50">
-<input id="file-input" type="file" accept=".png, .jpg, .jpeg" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-<div id="upload-content" class="space-y-1 text-center pointer-events-none">
-<span class="material-symbols-outlined text-outline text-3xl mb-2">upload_file</span>
-<div class="text-xs text-outline">
-<span class="text-primary-fixed">Click to upload</span> or drag and drop
-                                    </div>
-<p class="text-[10px] text-outline-variant">PNG, JPG up to 10MB</p>
-</div>
-<div id="upload-success" class="hidden flex-col items-center justify-center space-y-2 pointer-events-none w-full">
-<span class="material-symbols-outlined text-green-500 text-3xl">check_circle</span>
-<p id="upload-filename" class="text-sm text-primary-fixed font-bold truncate max-w-full px-4"></p>
-</div>
-</div>
-<p id="file-error" class="text-error text-xs absolute bottom-0 left-0 hidden">Please upload your payment screenshot</p>
-</div>
-</div>
-<button id="validate-btn" class="w-full mt-8 py-4 bg-primary text-neutral-950 font-label-sm uppercase tracking-widest transition-all hover:bg-primary-fixed">
-                        Validate Transaction
-                    </button>
-</div>
-</div>
-<!-- Phase 3: Connect -->
-<div class="glass-card p-8 rounded-lg flex flex-col h-full border-b-2 border-primary/30">
-<div class="flex items-center justify-between mb-8">
-<span class="text-label-sm font-label-sm text-primary uppercase tracking-[0.2em]">Phase 03</span>
-<span class="material-symbols-outlined text-primary text-3xl">hub</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Network Integration</h3>
-<p class="text-on-surface-variant mb-8 flex-grow">Synchronize with the core intelligence collective via the secure WhatsApp Hub.</p>
-<div class="rounded-lg overflow-hidden mb-8 h-48 border border-white/5">
-<img alt="WhatsApp Hub Visualization" class="w-full h-full object-cover grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700" data-alt="A wide, cinematic view of a futuristic digital communications hub with holographic nodes connecting together in a complex, glowing golden network. The background is a vast, dark digital void that emphasizes the brilliance of the connections. The scene is calm yet powerful, suggesting a global community of high-level contributors synchronized in real-time." src="https://lh3.googleusercontent.com/aida/ADBb0uio25sBj44suUHXmtRp51a9EWrOFxBhoRTMerM6EfoW5AvfeaYQ950H-W9LdcxlIKbD1JOOscLVVbqNxIIlJelAB53G-hw3xqdqxwoLACDI8rqV1DxFH8oAJ1161GU3vjXikD12kAhIftjJcqW0-YTdeBq7ngzoYRTwOvKKJmPMdgiam2N8nL4BhaFiruEe3xGQe1AXwFvqlKibdzhwU9pMJhe-hmIFM6j8w5ViMJjoxwV6X6IxIUlij_8"/>
-</div>
-<div class="p-6 bg-surface-container border border-outline-variant/20 rounded-lg mb-8">
-<div class="flex items-center gap-4">
-<div class="h-10 w-10 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/20">
-<span class="material-symbols-outlined text-green-500 text-xl">forum</span>
-</div>
-<div>
-<div class="text-label-sm text-on-surface uppercase tracking-widest">AETHER_PROTOCOL_CORE</div>
-<div class="text-[10px] text-green-400 font-bold uppercase">SECURE_LINK_ENCRYPTED</div>
-</div>
-</div>
-</div>
-<button id="whatsapp-btn" class="w-full py-4 bg-white/5 border border-white/10 text-on-surface font-label-sm uppercase tracking-widest transition-all hover:bg-white/10 flex items-center justify-center gap-3">
-                    Join WhatsApp Hub
-                    <span class="material-symbols-outlined text-sm">open_in_new</span>
-</button>
-</div>
+<!-- Google Form Registration -->
+<div class="glass-card p-0 rounded-lg overflow-hidden mb-xl border border-primary/20">
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeyayPE4_Bq8hJWXYJmZpzCnwpoSLt73jV2idfcYd00TuUy6w/viewform?embedded=true" width="100%" height="1200" frameborder="0" marginheight="0" marginwidth="0" style="background: transparent;">Loading…</iframe>
 </div>
 <!-- Operational Logistics Section -->
 <section class="mt-xl border-t border-white/5 pt-xl">
@@ -297,7 +202,7 @@
 <a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors" href="#">Operational Logistics</a>
 </div>
 <div class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 text-center md:text-right">
-                © 2024 AAVISHKAR PRAVAH 2.0. ENGINEERED FOR THE FUTURE OF INTELLIGENCE.
+                © 2026 AAVISHKAR PRAVAH 2.0. ENGINEERED FOR THE FUTURE OF INTELLIGENCE.
             </div>
 </div>
 </footer>
