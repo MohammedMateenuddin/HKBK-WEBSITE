@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -86,30 +94,32 @@
                         "label-sm": ["Space Grotesk"]
                     },
                     "fontSize": {
-                        "display-xl": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "600"}],
-                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "500"}],
-                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}]
+                        "display-xl": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }]
                     }
                 },
             },
         }
     </script>
-<style>
+    <style>
         body {
             background-color: #131314;
             color: #e5e2e3;
             background-image: radial-gradient(circle at 2px 2px, rgba(255, 204, 122, 0.05) 1px, transparent 0);
             background-size: 40px 40px;
         }
+
         .glass-card {
             background: rgba(20, 20, 22, 0.7);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 204, 122, 0.1);
             position: relative;
         }
+
         .glass-card::before {
             content: "";
             position: absolute;
@@ -119,251 +129,314 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 204, 122, 0.3), transparent);
         }
+
         .cyber-gold-glow {
             box-shadow: 0 0 20px rgba(255, 204, 122, 0.05);
         }
     </style>
 </head>
+
 <body class="font-body-md text-body-md antialiased">
-<!-- TopNavBar -->
-<nav class="bg-neutral-950/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-amber-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] h-20">
-<div class="flex justify-between items-center max-w-7xl mx-auto px-4 md:px-8 h-full">
-<div class="font-serif text-2xl font-bold tracking-tighter text-amber-500 uppercase">AAVISHKAR PRAVAH 2.0</div>
-<button id="mobile-menu-btn" class="md:hidden text-amber-500 p-2">
-  <span class="material-symbols-outlined">menu</span>
-</button>
-<div class="hidden md:flex items-center space-x-8">
-<a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="index.html">Home</a>
-<a class="font-serif text-sm tracking-widest uppercase text-amber-500 border-b border-amber-500 pb-1" href="details.html">Details</a>
-<a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="rewards.html">Rewards</a>
-<a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="registration.html">Registration</a>
-</div>
-<a href="registration.html" class="hidden md:inline-flex font-serif text-sm tracking-widest uppercase bg-amber-500/10 text-amber-400 px-6 py-2 border border-amber-500/30 hover:bg-amber-500/5 transition-all duration-300 Active:opacity-80 scale-[0.99]">
+    <!-- TopNavBar -->
+    <nav
+        class="bg-neutral-950/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-amber-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] h-20">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 md:px-8 h-full">
+            <div class="font-serif text-2xl font-bold tracking-tighter text-amber-500 uppercase">AAVISHKAR PRAVAH 2.0
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-amber-500 p-2">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <div class="hidden md:flex items-center space-x-8">
+                <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors"
+                    href="index.html">Home</a>
+                <a class="font-serif text-sm tracking-widest uppercase text-amber-500 border-b border-amber-500 pb-1"
+                    href="details.html">Details</a>
+                <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors"
+                    href="rewards.html">Rewards</a>
+                <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors"
+                    href="registration.html">Registration</a>
+            </div>
+            <a href="registration.html"
+                class="hidden md:inline-flex font-serif text-sm tracking-widest uppercase bg-amber-500/10 text-amber-400 px-6 py-2 border border-amber-500/30 hover:bg-amber-500/5 transition-all duration-300 Active:opacity-80 scale-[0.99]">
                 Initialize Participation
             </a>
-</div>
-<!-- Mobile Menu Overlay -->
-<div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-neutral-950 border-b border-amber-500/20 p-4 flex-col gap-4 shadow-xl md:hidden">
-  <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="index.html">Home</a>
-  <a class="text-amber-500 font-serif text-sm tracking-widest uppercase block p-2" href="details.html">Details</a>
-  <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="rewards.html">Rewards</a>
-  <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="registration.html">Registration</a>
-  <a href="registration.html" class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-6 py-3 mt-2 font-serif text-sm uppercase tracking-widest text-center w-full block">Initialize Participation</a>
-</div>
-</nav>
-<!-- Hero Section -->
-<header class="relative pt-40 pb-20 overflow-hidden">
-<div class="max-w-7xl mx-auto px-8 relative z-10">
-<div class="flex flex-col md:flex-row items-center gap-16">
-<div class="flex-1 space-y-8">
-<div class="inline-flex items-center gap-2 px-3 py-1 border border-amber-500/30 bg-amber-500/5 rounded-full">
-<span class="material-symbols-outlined text-amber-500 text-sm">terminal</span>
-<span class="font-label-sm text-label-sm text-amber-500">PROTOCOL_V.01.2</span>
-</div>
-<h1 class="font-display-xl text-5xl md:text-display-xl text-on-surface">The Protocol</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-                        A 2-day hackathon where college students come together to build real AI projects, win big prizes, and get recognized by industry experts. No experience needed — just curiosity, a laptop, and the drive to create something awesome.
+        </div>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="hidden absolute top-20 left-0 w-full bg-neutral-950 border-b border-amber-500/20 p-4 flex-col gap-4 shadow-xl md:hidden">
+            <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2"
+                href="index.html">Home</a>
+            <a class="text-amber-500 font-serif text-sm tracking-widest uppercase block p-2"
+                href="details.html">Details</a>
+            <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2"
+                href="rewards.html">Rewards</a>
+            <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2"
+                href="registration.html">Registration</a>
+            <a href="registration.html"
+                class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-6 py-3 mt-2 font-serif text-sm uppercase tracking-widest text-center w-full block">Initialize
+                Participation</a>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <header class="relative pt-40 pb-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="flex-1 space-y-8">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 border border-amber-500/30 bg-amber-500/5 rounded-full">
+                        <span class="material-symbols-outlined text-amber-500 text-sm">terminal</span>
+                        <span class="font-label-sm text-label-sm text-amber-500">PROTOCOL_V.01.2</span>
+                    </div>
+                    <h1 class="font-display-xl text-5xl md:text-display-xl text-on-surface">The Protocol</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        A 2-day hackathon where college students come together to build real AI projects, win big
+                        prizes, and get recognized by industry experts. No experience needed — just curiosity, a laptop,
+                        and the drive to create something awesome.
                     </p>
-<div class="flex items-center gap-12 pt-8">
-<div>
-<p class="font-label-sm text-label-sm text-neutral-500 uppercase tracking-widest mb-2">Temporal Window</p>
-<p class="font-headline-md text-headline-md text-primary">May 11-12, 2026</p>
-</div>
-<div class="w-px h-16 bg-outline-variant"></div>
-<div>
-<p class="font-label-sm text-label-sm text-neutral-500 uppercase tracking-widest mb-2">Architectural Hub</p>
-<p class="font-headline-md text-headline-md text-on-surface">HKBK College</p>
-</div>
-</div>
-</div>
-<div class="flex-1 relative flex items-end">
-<div class="glass-card p-4 rounded-xl overflow-hidden cyber-gold-glow mt-12">
-<img class="w-full h-[400px] object-cover rounded-lg" data-alt="A dark, cinematic visualization of a complex neural network structure rendered with fine amber threads of light on a deep charcoal background. The composition is clean and architectural, suggesting high-end engineering and digital sophistication. Subtle lens flares and bokeh effects create a sense of depth and luxury in a futuristic laboratory setting." src="./hackathon-poster.jpeg"/>
-</div>
-</div>
-</div>
-</div>
-</header>
-<!-- Event Poster Section -->
-<section class="py-xl max-w-7xl mx-auto px-8">
-</div>
-</section>
-<!-- The Challenge: Architectural Pillars -->
-<section class="py-xl bg-surface-container-lowest">
-<div class="max-w-7xl mx-auto px-8">
-<div class="mb-20">
-<h2 class="font-headline-lg text-headline-lg text-primary-fixed mb-4">The Challenge</h2>
-<div class="w-24 h-1 bg-primary"></div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="glass-card p-10 space-y-6 group hover:border-amber-500/50 transition-all duration-500">
-<span class="material-symbols-outlined text-4xl text-amber-500/50 group-hover:text-amber-500 transition-colors">hub</span>
-<h3 class="font-headline-md text-headline-md text-on-surface">Smart Problem Solving</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Build AI solutions that solve real problems in a clever way. Think outside the box and create something that works better than what already exists.
+                    <div class="flex items-center gap-12 pt-8">
+                        <div>
+                            <p class="font-label-sm text-label-sm text-neutral-500 uppercase tracking-widest mb-2">
+                                Temporal Window</p>
+                            <p class="font-headline-md text-headline-md text-primary">May 11-12, 2026</p>
+                        </div>
+                        <div class="w-px h-16 bg-outline-variant"></div>
+                        <div>
+                            <p class="font-label-sm text-label-sm text-neutral-500 uppercase tracking-widest mb-2">
+                                Architectural Hub</p>
+                            <p class="font-headline-md text-headline-md text-on-surface">HKBK College</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 relative flex items-end">
+                    <div class="glass-card p-4 rounded-xl overflow-hidden cyber-gold-glow mt-12">
+                        <img class="w-full h-[400px] object-cover rounded-lg"
+                            data-alt="A dark, cinematic visualization of a complex neural network structure rendered with fine amber threads of light on a deep charcoal background. The composition is clean and architectural, suggesting high-end engineering and digital sophistication. Subtle lens flares and bokeh effects create a sense of depth and luxury in a futuristic laboratory setting."
+                            src="./hackathon-poster.jpeg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Event Poster Section -->
+    <section class="py-xl max-w-7xl mx-auto px-8">
+        </div>
+    </section>
+    <!-- The Challenge: Architectural Pillars -->
+    <section class="py-xl bg-surface-container-lowest">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="mb-20">
+                <h2 class="font-headline-lg text-headline-lg text-primary-fixed mb-4">The Challenge</h2>
+                <div class="w-24 h-1 bg-primary"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="glass-card p-10 space-y-6 group hover:border-amber-500/50 transition-all duration-500">
+                    <span
+                        class="material-symbols-outlined text-4xl text-amber-500/50 group-hover:text-amber-500 transition-colors">hub</span>
+                    <h3 class="font-headline-md text-headline-md text-on-surface">Smart Problem Solving</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        Build AI solutions that solve real problems in a clever way. Think outside the box and create
+                        something that works better than what already exists.
                     </p>
-</div>
-<div class="glass-card p-10 space-y-6 group hover:border-amber-500/50 transition-all duration-500 translate-y-8">
-<span class="material-symbols-outlined text-4xl text-amber-500/50 group-hover:text-amber-500 transition-colors">public</span>
-<h3 class="font-headline-md text-headline-md text-on-surface">Tech for Good</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Use AI to solve everyday problems that affect real people — healthcare, education, environment, or daily life. Make something that actually matters.
+                </div>
+                <div
+                    class="glass-card p-10 space-y-6 group hover:border-amber-500/50 transition-all duration-500 translate-y-8">
+                    <span
+                        class="material-symbols-outlined text-4xl text-amber-500/50 group-hover:text-amber-500 transition-colors">public</span>
+                    <h3 class="font-headline-md text-headline-md text-on-surface">Tech for Good</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        Use AI to solve everyday problems that affect real people — healthcare, education, environment,
+                        or daily life. Make something that actually matters.
                     </p>
-</div>
-<div class="glass-card p-10 space-y-6 group hover:border-amber-500/50 transition-all duration-500">
-<span class="material-symbols-outlined text-4xl text-amber-500/50 group-hover:text-amber-500 transition-colors">memory</span>
-<h3 class="font-headline-md text-headline-md text-on-surface">Build It Fast & Light</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Create AI models that are fast and accurate. Show us you can build something powerful without needing heavy hardware to run it.
+                </div>
+                <div class="glass-card p-10 space-y-6 group hover:border-amber-500/50 transition-all duration-500">
+                    <span
+                        class="material-symbols-outlined text-4xl text-amber-500/50 group-hover:text-amber-500 transition-colors">memory</span>
+                    <h3 class="font-headline-md text-headline-md text-on-surface">Build It Fast & Light</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        Create AI models that are fast and accurate. Show us you can build something powerful without
+                        needing heavy hardware to run it.
                     </p>
-</div>
-</div>
-</div>
-</section>
-<!-- Logistics & Timeline -->
-<section class="py-xl">
-<div class="max-w-7xl mx-auto px-8">
-<div class="flex flex-col lg:flex-row gap-16">
-<!-- Timeline Grid -->
-<div class="flex-1">
-<h2 class="font-headline-lg text-headline-lg mb-12">Operational Timeline</h2>
-<div class="space-y-4">
-<div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-amber-500">
-<div class="col-span-1 font-label-sm text-amber-500">MAY 11 | 08:00 AM</div>
-<div class="col-span-3">
-<h4 class="font-headline-md text-body-lg font-bold">Kickoff & Workshop</h4>
-<p class="text-on-surface-variant text-sm">Start the day with an expert-led workshop to get you prepped and ready with the latest tools before the main event begins.</p>
-</div>
-</div>
-<div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-amber-500">
-<div class="col-span-1 font-label-sm text-amber-500">MAY 11 | 04:00 PM</div>
-<div class="col-span-3">
-<h4 class="font-headline-md text-body-lg font-bold">Hackathon Commences!</h4>
-<p class="text-on-surface-variant text-sm">The clock starts ticking! You have exactly 24 hours to build, break, and bring your ideas to life.</p>
-</div>
-</div>
-<div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-neutral-700">
-<div class="col-span-1 font-label-sm text-neutral-500">MAY 11 | 08:00 PM</div>
-<div class="col-span-3">
-<h4 class="font-headline-md text-body-lg font-bold text-neutral-300">Campfire & Check-in</h4>
-<p class="text-on-surface-variant text-sm">Time to unwind! Join us for a campfire setup, live music, and karaoke to refresh your mind. Mentors will also do a quick midway check-in on your progress.</p>
-</div>
-</div>
-<div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-neutral-700">
-<div class="col-span-1 font-label-sm text-neutral-500">MAY 12 | 12:00 AM</div>
-<div class="col-span-3">
-<h4 class="font-headline-md text-body-lg font-bold text-neutral-300">Midnight Mystery</h4>
-<p class="text-on-surface-variant text-sm">A secret mini-game to keep the energy high and the sleepiness away. You definitely won't want to miss this one!</p>
-</div>
-</div>
-<div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-amber-500/50">
-<div class="col-span-1 font-label-sm text-amber-500">MAY 12 | 02:00 PM</div>
-<div class="col-span-3">
-<h4 class="font-headline-md text-body-lg font-bold">Final Review Round</h4>
-<p class="text-on-surface-variant text-sm">Stop coding! It's time to polish your pitch and demo your project to the judges for the final evaluation.</p>
-</div>
-</div>
-<div class="grid grid-cols-4 gap-4 p-6 glass-card bg-amber-500/5 border-l-4 border-l-amber-500">
-<div class="col-span-1 font-label-sm text-amber-500">MAY 12 | 04:00 PM</div>
-<div class="col-span-3">
-<h4 class="font-headline-md text-body-lg font-bold">Closing Ceremony</h4>
-<p class="text-on-surface-variant text-sm">The 24-hour hackathon concludes. We announce the winners, hand out the massive prizes, and celebrate everyone's hard work!</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Venue & Team Details -->
-<div class="lg:w-1/3 space-y-8">
-<div class="glass-card p-8 rounded-xl">
-<div class="flex items-center gap-4 mb-6">
-<span class="material-symbols-outlined text-amber-500" data-weight="fill">location_on</span>
-<h3 class="font-headline-md text-body-lg font-bold">The Venue</h3>
-</div>
-<p class="font-body-md text-on-surface-variant mb-6">HKBK College of Engineering, Research Wing. A facility built for technological disruption.</p>
-<div class="aspect-square bg-neutral-900 rounded-lg overflow-hidden border border-white/5 grayscale">
-<img class="w-full h-full object-cover" data-alt="A minimalist architectural photograph of a high-tech university campus corridor. Sharp geometric shadows fall across sleek concrete surfaces and glass panels. The atmosphere is quiet, scholarly, and futuristic, captured in a monochromatic style with very subtle warm amber highlights to maintain the brand's luxury aesthetic." data-location="Bangalore, India" src="./college.jpeg"/>
-</div>
-</div>
-<div class="glass-card p-8 rounded-xl border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent">
-<div class="flex items-center gap-4 mb-4">
-<span class="material-symbols-outlined text-amber-500">groups</span>
-<h3 class="font-headline-md text-body-lg font-bold">Collective Size</h3>
-</div>
-<p class="font-display-xl text-display-xl text-primary leading-none mb-2">3-4</p>
-<p class="font-label-sm text-label-sm text-amber-500 uppercase tracking-widest">Elite Builders Only</p>
-<p class="mt-4 text-on-surface-variant text-sm italic opacity-75">Admission is strictly limited to practitioners with proven technical mastery.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Evaluation Matrix -->
-<section class="py-xl bg-surface-container-low border-y border-white/5">
-<div class="max-w-7xl mx-auto px-8">
-<div class="text-center mb-16">
-<p class="font-label-sm text-label-sm text-amber-500 mb-4">EVALUATION_METRICS</p>
-<h2 class="font-display-xl text-headline-lg">Validation Criteria</h2>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-<div class="text-center space-y-4">
-<div class="w-20 h-20 mx-auto rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/5">
-<span class="material-symbols-outlined text-3xl text-amber-500">lightbulb</span>
-</div>
-<h4 class="font-headline-md text-body-lg font-bold uppercase tracking-widest">Originality</h4>
-<p class="text-on-surface-variant opacity-80">Deviation from established paradigms. We value the conceptual 'black swan' that redefines possibility.</p>
-<div class="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
-<div class="h-full bg-amber-500 w-[85%]"></div>
-</div>
-</div>
-<div class="text-center space-y-4">
-<div class="w-20 h-20 mx-auto rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/5">
-<span class="material-symbols-outlined text-3xl text-amber-500">trending_up</span>
-</div>
-<h4 class="font-headline-md text-body-lg font-bold uppercase tracking-widest">Scalability</h4>
-<p class="text-on-surface-variant opacity-80">Architectural resilience under extreme demand. Solutions must be built for the infinite, not the immediate.</p>
-<div class="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
-<div class="h-full bg-amber-500 w-[70%]"></div>
-</div>
-</div>
-<div class="text-center space-y-4">
-<div class="w-20 h-20 mx-auto rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/5">
-<span class="material-symbols-outlined text-3xl text-amber-500">code</span>
-</div>
-<h4 class="font-headline-md text-body-lg font-bold uppercase tracking-widest">Technical Complexity</h4>
-<p class="text-on-surface-variant opacity-80">Elegance in solving the unsolvable. Depth of engineering craft and sophistication of the implementation.</p>
-<div class="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
-<div class="h-full bg-amber-500 w-[95%]"></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Footer -->
-<footer class="bg-neutral-950 w-full py-20 border-t border-amber-900/30">
-<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-8">
-<div class="space-y-4">
-<div class="text-amber-500 font-bold text-2xl tracking-tighter font-serif uppercase">AAVISHKAR PRAVAH 2.0</div>
-<p class="font-serif text-[10px] tracking-widest uppercase text-neutral-600">© 2024 AAVISHKAR PRAVAH 2.0. ENGINEERED FOR THE FUTURE OF INTELLIGENCE.</p>
-</div>
-<div class="flex gap-8">
-<a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors" href="#">The Protocol</a>
-<a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors" href="#">Architecture</a>
-<a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors" href="#">Privacy</a>
-<a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors" href="#">Operational Logistics</a>
-</div>
-<div class="h-12">
-<img class="h-full opacity-30 grayscale hover:grayscale-0 transition-all" data-alt="A wide, panoramic abstract graphic featuring microscopic digital circuitry paths illuminated in gold against a black void. The design is minimalist and technical, resembling a signature or a high-end branding watermark for a futuristic technology company. Clean lines and sharp angles emphasize precision and high-fidelity engineering." src="./circuitry-pattern.jpg"/>
-</div>
-</div>
-</footer>
-<script>
-  const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener('click', () => {
-          mobileMenu.classList.toggle('hidden');
-          mobileMenu.classList.toggle('flex');
-      });
-  }
-</script>
-</body></html>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Logistics & Timeline -->
+    <section class="py-xl">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="flex flex-col lg:flex-row gap-16">
+                <!-- Timeline Grid -->
+                <div class="flex-1">
+                    <h2 class="font-headline-lg text-headline-lg mb-12">Operational Timeline</h2>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-amber-500">
+                            <div class="col-span-1 font-label-sm text-amber-500">MAY 11 | 10:00 AM</div>
+                            <div class="col-span-3">
+                                <h4 class="font-headline-md text-body-lg font-bold">Kickoff & Workshop</h4>
+                                <p class="text-on-surface-variant text-sm">Start the day with an expert-led workshop to
+                                    get you prepped and ready with the latest tools before the main event begins.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-amber-500">
+                            <div class="col-span-1 font-label-sm text-amber-500">MAY 11 | 04:00 PM</div>
+                            <div class="col-span-3">
+                                <h4 class="font-headline-md text-body-lg font-bold">Hackathon Commences!</h4>
+                                <p class="text-on-surface-variant text-sm">The clock starts ticking! You have exactly 24
+                                    hours to build, break, and bring your ideas to life.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-neutral-700">
+                            <div class="col-span-1 font-label-sm text-neutral-500">MAY 11 | 08:00 PM</div>
+                            <div class="col-span-3">
+                                <h4 class="font-headline-md text-body-lg font-bold text-neutral-300">Campfire & Check-in
+                                </h4>
+                                <p class="text-on-surface-variant text-sm">Time to unwind! Join us for a campfire setup,
+                                    live music, and karaoke to refresh your mind. Mentors will also do a quick midway
+                                    check-in on your progress.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-neutral-700">
+                            <div class="col-span-1 font-label-sm text-neutral-500">MAY 12 | 12:00 AM</div>
+                            <div class="col-span-3">
+                                <h4 class="font-headline-md text-body-lg font-bold text-neutral-300">Midnight Mystery
+                                </h4>
+                                <p class="text-on-surface-variant text-sm">A secret mini-game to keep the energy high
+                                    and the sleepiness away. You definitely won't want to miss this one!</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-6 glass-card border-l-4 border-l-amber-500/50">
+                            <div class="col-span-1 font-label-sm text-amber-500">MAY 12 | 02:00 PM</div>
+                            <div class="col-span-3">
+                                <h4 class="font-headline-md text-body-lg font-bold">Final Review Round</h4>
+                                <p class="text-on-surface-variant text-sm">Stop coding! It's time to polish your pitch
+                                    and demo your project to the judges for the final evaluation.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-4 gap-4 p-6 glass-card bg-amber-500/5 border-l-4 border-l-amber-500">
+                            <div class="col-span-1 font-label-sm text-amber-500">MAY 12 | 04:00 PM</div>
+                            <div class="col-span-3">
+                                <h4 class="font-headline-md text-body-lg font-bold">Closing Ceremony</h4>
+                                <p class="text-on-surface-variant text-sm">The 24-hour hackathon concludes. We announce
+                                    the winners, hand out the massive prizes, and celebrate everyone's hard work!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Venue & Team Details -->
+                <div class="lg:w-1/3 space-y-8">
+                    <div class="glass-card p-8 rounded-xl">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="material-symbols-outlined text-amber-500" data-weight="fill">location_on</span>
+                            <h3 class="font-headline-md text-body-lg font-bold">The Venue</h3>
+                        </div>
+                        <p class="font-body-md text-on-surface-variant mb-6">HKBK College of Engineering, Research Wing.
+                            A facility built for technological disruption.</p>
+                        <div
+                            class="aspect-square bg-neutral-900 rounded-lg overflow-hidden border border-white/5 grayscale">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A minimalist architectural photograph of a high-tech university campus corridor. Sharp geometric shadows fall across sleek concrete surfaces and glass panels. The atmosphere is quiet, scholarly, and futuristic, captured in a monochromatic style with very subtle warm amber highlights to maintain the brand's luxury aesthetic."
+                                data-location="Bangalore, India" src="./college.jpeg" />
+                        </div>
+                    </div>
+                    <div
+                        class="glass-card p-8 rounded-xl border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent">
+                        <div class="flex items-center gap-4 mb-4">
+                            <span class="material-symbols-outlined text-amber-500">groups</span>
+                            <h3 class="font-headline-md text-body-lg font-bold">Collective Size</h3>
+                        </div>
+                        <p class="font-display-xl text-display-xl text-primary leading-none mb-2">3-4</p>
+                        <p class="font-label-sm text-label-sm text-amber-500 uppercase tracking-widest">Elite Builders
+                            Only</p>
+                        <p class="mt-4 text-on-surface-variant text-sm italic opacity-75">Admission is strictly limited
+                            to practitioners with proven technical mastery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Evaluation Matrix -->
+    <section class="py-xl bg-surface-container-low border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="text-center mb-16">
+                <p class="font-label-sm text-label-sm text-amber-500 mb-4">EVALUATION_METRICS</p>
+                <h2 class="font-display-xl text-headline-lg">Validation Criteria</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center space-y-4">
+                    <div
+                        class="w-20 h-20 mx-auto rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/5">
+                        <span class="material-symbols-outlined text-3xl text-amber-500">lightbulb</span>
+                    </div>
+                    <h4 class="font-headline-md text-body-lg font-bold uppercase tracking-widest">Originality</h4>
+                    <p class="text-on-surface-variant opacity-80">Deviation from established paradigms. We value the
+                        conceptual 'black swan' that redefines possibility.</p>
+                    <div class="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500 w-[85%]"></div>
+                    </div>
+                </div>
+                <div class="text-center space-y-4">
+                    <div
+                        class="w-20 h-20 mx-auto rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/5">
+                        <span class="material-symbols-outlined text-3xl text-amber-500">trending_up</span>
+                    </div>
+                    <h4 class="font-headline-md text-body-lg font-bold uppercase tracking-widest">Scalability</h4>
+                    <p class="text-on-surface-variant opacity-80">Architectural resilience under extreme demand.
+                        Solutions must be built for the infinite, not the immediate.</p>
+                    <div class="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500 w-[70%]"></div>
+                    </div>
+                </div>
+                <div class="text-center space-y-4">
+                    <div
+                        class="w-20 h-20 mx-auto rounded-full border border-amber-500/30 flex items-center justify-center bg-amber-500/5">
+                        <span class="material-symbols-outlined text-3xl text-amber-500">code</span>
+                    </div>
+                    <h4 class="font-headline-md text-body-lg font-bold uppercase tracking-widest">Technical Complexity
+                    </h4>
+                    <p class="text-on-surface-variant opacity-80">Elegance in solving the unsolvable. Depth of
+                        engineering craft and sophistication of the implementation.</p>
+                    <div class="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-amber-500 w-[95%]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-neutral-950 w-full py-20 border-t border-amber-900/30">
+        <div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-8">
+            <div class="space-y-4">
+                <div class="text-amber-500 font-bold text-2xl tracking-tighter font-serif uppercase">AAVISHKAR PRAVAH
+                    2.0</div>
+                <p class="font-serif text-[10px] tracking-widest uppercase text-neutral-600">© 2024 AAVISHKAR PRAVAH
+                    2.0. ENGINEERED FOR THE FUTURE OF INTELLIGENCE.</p>
+            </div>
+            <div class="flex gap-8">
+                <a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors"
+                    href="#">The Protocol</a>
+                <a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors"
+                    href="#">Architecture</a>
+                <a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors"
+                    href="#">Privacy</a>
+                <a class="font-serif text-[10px] tracking-widest uppercase text-neutral-600 hover:text-amber-200 transition-colors"
+                    href="#">Operational Logistics</a>
+            </div>
+            <div class="h-12">
+                <img class="h-full opacity-30 grayscale hover:grayscale-0 transition-all"
+                    data-alt="A wide, panoramic abstract graphic featuring microscopic digital circuitry paths illuminated in gold against a black void. The design is minimalist and technical, resembling a signature or a high-end branding watermark for a futuristic technology company. Clean lines and sharp angles emphasize precision and high-fidelity engineering."
+                    src="./circuitry-pattern.jpg" />
+            </div>
+        </div>
+    </footer>
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+            });
+        }
+    </script>
+</body>
+
+</html>
