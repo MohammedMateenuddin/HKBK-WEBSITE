@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Login | Aavishkar Pravah 2.0</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#ffcc7a", "on-surface": "#e5e2e3", "on-surface-variant": "#d3c4b3", "background": "#131314" }, fontFamily: { "display-xl": ["Noto Serif"], "body-md": ["Space Grotesk"], "headline-md": ["Noto Serif"], "label-sm": ["Space Grotesk"] } } } }</script>
+    <style>
+        body {
+            background-color: #131314;
+            color: #e5e2e3;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255, 204, 122, 0.05) 1px, transparent 0);
+            background-size: 40px 40px
+        }
+
+        .glass-card {
+            background: rgba(20, 20, 22, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 204, 122, 0.1);
+            position: relative
+        }
+
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 204, 122, 0.3), transparent)
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.6s ease forwards
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-8px)
+            }
+
+            75% {
+                transform: translateX(8px)
+            }
+        }
+
+        .shake {
+            animation: shake 0.4s ease
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 204, 122, 0.1)
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 204, 122, 0.2)
+            }
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease infinite
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-body-md antialiased min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md animate-in">
+        <div class="text-center mb-10">
+            <div class="font-serif text-3xl font-bold tracking-tighter text-amber-500 uppercase mb-2">AAVISHKAR PRAVAH
+                2.0</div>
+            <p class="text-neutral-500 font-label-sm uppercase tracking-[0.3em]">Team Leader Portal</p>
+        </div>
+
+        <div class="glass-card rounded-xl p-8 pulse-glow" id="login-card">
+            <div class="flex items-center gap-3 mb-8">
+                <div
+                    class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-amber-500">lock</span>
+                </div>
+                <div>
+                    <h1 class="font-headline-md text-xl font-bold text-on-surface">Initialize Access</h1>
+                    <p class="text-sm text-on-surface-variant">Sign in with your registered Google account</p>
+                </div>
+            </div>
+
+            <button id="google-btn"
+                class="w-full flex items-center justify-center gap-3 bg-white text-neutral-800 px-6 py-3 rounded-lg font-bold hover:bg-neutral-100 transition-colors">
+                <svg width="20" height="20" viewBox="0 0 48 48">
+                    <path fill="#EA4335"
+                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                    <path fill="#4285F4"
+                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                    <path fill="#FBBC05"
+                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                    <path fill="#34A853"
+                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                </svg>
+                Sign in with Google
+            </button>
+
+            <div id="loading" class="hidden text-center py-4">
+                <div class="inline-flex items-center gap-2 text-amber-500">
+                    <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                            fill="none" />
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    <span class="font-label-sm uppercase tracking-widest">Verifying registration...</span>
+                </div>
+            </div>
+
+            <p id="error-msg" class="text-red-400 text-sm mt-4 hidden text-center"></p>
+        </div>
+
+        <p class="text-center text-neutral-600 text-xs mt-6 tracking-wider uppercase">Only registered & paid team
+            leaders can access the dashboard</p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════
+        // 🔥 FIREBASE CONFIG — REPLACE WITH YOUR PROJECT'S CONFIG
+        // ═══════════════════════════════════════════════════════════
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // ═══════════════════════════════════════════════════════════
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // If already logged in, redirect
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const email = user.email.toLowerCase().trim();
+                const doc = await db.collection('registrations').doc(email).get();
+                if (doc.exists) {
+                    window.location.href = 'dashboard.html';
+                }
+            }
+        });
+
+        document.getElementById('google-btn').addEventListener('click', async () => {
+            const errorMsg = document.getElementById('error-msg');
+            const loading = document.getElementById('loading');
+            const btn = document.getElementById('google-btn');
+            const card = document.getElementById('login-card');
+
+            errorMsg.classList.add('hidden');
+            btn.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            try {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                const result = await auth.signInWithPopup(provider);
+                const email = result.user.email.toLowerCase().trim();
+
+                // Check if email is registered in Firestore
+                const doc = await db.collection('registrations').doc(email).get();
+
+                if (!doc.exists) {
+                    await auth.signOut();
+                    errorMsg.textContent = '❌ This email is not registered. Only paid team leaders can access the dashboard.';
+                    errorMsg.classList.remove('hidden');
+                    card.classList.add('shake');
+                    setTimeout(() => card.classList.remove('shake'), 500);
+                    btn.classList.remove('hidden');
+                    loading.classList.add('hidden');
+                    return;
+                }
+
+                // Registered! Redirect to dashboard
+                window.location.href = 'dashboard.html';
+
+            } catch (err) {
+                console.error(err);
+                if (err.code === 'auth/popup-closed-by-user') {
+                    errorMsg.textContent = 'Sign-in cancelled. Please try again.';
+                } else if (err.code === 'auth/popup-blocked') {
+                    errorMsg.textContent = 'Pop-up blocked. Please allow pop-ups and try again.';
+                } else {
+                    errorMsg.textContent = 'Sign-in failed: ' + err.message;
+                }
+                errorMsg.classList.remove('hidden');
+                btn.classList.remove('hidden');
+                loading.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+
+</html>

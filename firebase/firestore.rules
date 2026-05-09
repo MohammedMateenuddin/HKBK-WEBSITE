@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Registrations: anyone authenticated can read their own, no client writes
+    match /registrations/{email} {
+      allow read: if request.auth != null && request.auth.token.email.lower() == email;
+      allow write: if false;  // Only seeded via Admin SDK
+    }
+
+    // Teams: leader can read/write their own team doc
+    match /teams/{email} {
+      allow read: if request.auth != null && request.auth.token.email.lower() == email;
+      allow create: if request.auth != null && request.auth.token.email.lower() == email;
+      allow update: if request.auth != null && request.auth.token.email.lower() == email
+                    && !('teamName' in request.resource.data && resource.data.teamName != request.resource.data.teamName);
+      // ^ Prevents changing teamName after it's set
+    }
+
+    // Announcements: anyone authenticated can read, no client writes
+    match /announcements/{id} {
+      allow read: if request.auth != null;
+      allow write: if false;  // Admin adds via Firebase Console
+    }
+  }
+}

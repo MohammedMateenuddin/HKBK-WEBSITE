@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Dashboard | Aavishkar Pravah 2.0</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary-fixed":"#ffdead","on-surface":"#e5e2e3","surface-container-low":"#1c1b1c","surface-tint":"#f2be6a","outline-variant":"#4f4538","surface-container-highest":"#353436","surface-container-high":"#2a2a2b","surface-container":"#201f20","on-background":"#e5e2e3","on-primary-container":"#634300","outline":"#9b8f7f","surface-container-lowest":"#0e0e0f","primary-container":"#e2b05e","primary":"#ffcc7a","on-surface-variant":"#d3c4b3","on-primary":"#432c00","background":"#131314","surface":"#131314"},fontFamily:{"display-xl":["Noto Serif"],"body-md":["Space Grotesk"],"body-lg":["Space Grotesk"],"headline-lg":["Noto Serif"],"headline-md":["Noto Serif"],"label-sm":["Space Grotesk"]},fontSize:{"display-xl":["72px",{"lineHeight":"1.1","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["16px",{"lineHeight":"1.6","fontWeight":"400"}],"body-lg":["18px",{"lineHeight":"1.6","fontWeight":"400"}],"headline-lg":["40px",{"lineHeight":"1.2","fontWeight":"600"}],"headline-md":["32px",{"lineHeight":"1.3","fontWeight":"500"}],"label-sm":["12px",{"lineHeight":"1","letterSpacing":"0.1em","fontWeight":"600"}]}}}}</script>
+    <style>
+        body{background-color:#131314;color:#e5e2e3;background-image:radial-gradient(circle at 2px 2px,rgba(255,204,122,0.05) 1px,transparent 0);background-size:40px 40px}
+        .glass-card{background:rgba(20,20,22,0.7);backdrop-filter:blur(20px);border:1px solid rgba(255,204,122,0.1);position:relative}
+        .glass-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,204,122,0.3),transparent)}
+        .cyber-gold-glow{box-shadow:0 0 20px rgba(255,204,122,0.05)}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .animate-in{animation:fadeIn 0.6s ease forwards;opacity:0}
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="fixed inset-0 z-[80] bg-[#131314] flex items-center justify-center">
+    <div class="text-center">
+        <div class="inline-flex items-center gap-3 text-amber-500 mb-4">
+            <svg class="animate-spin h-6 w-6" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+            <span class="font-label-sm uppercase tracking-[0.3em]">Loading Dashboard...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Team Name Modal -->
+<div id="teamname-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.9);backdrop-filter:blur(10px)">
+    <div class="w-full max-w-lg glass-card rounded-xl p-10">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 mx-auto rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mb-4">
+                <span class="material-symbols-outlined text-amber-500 text-3xl">groups</span>
+            </div>
+            <h2 class="font-headline-lg text-3xl text-on-surface mb-2">Name Your Team</h2>
+            <p class="text-on-surface-variant">Choose your official team name for the hackathon. This will be visible to judges and other teams.</p>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-label-sm uppercase tracking-widest text-neutral-400 mb-2">Team Name</label>
+                <input type="text" id="teamname-input" placeholder="e.g. Code Crusaders, Neural Knights..." class="w-full bg-neutral-900/80 border border-white/10 rounded-lg px-4 py-3 text-white text-lg focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all" maxlength="30">
+            </div>
+            <p id="teamname-error" class="text-red-400 text-sm hidden"></p>
+            <button id="teamname-btn" class="w-full font-serif tracking-widest uppercase bg-amber-500 text-neutral-950 px-6 py-3 font-bold hover:bg-amber-400 transition-colors text-lg">Lock In Team Name</button>
+            <p class="text-center text-neutral-600 text-xs tracking-wider">⚠ This cannot be changed later</p>
+        </div>
+    </div>
+</div>
+
+<!-- Nav -->
+<nav class="bg-neutral-950/80 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-amber-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] h-20">
+    <div class="flex justify-between items-center max-w-7xl mx-auto px-4 md:px-8 h-full">
+        <div class="font-serif text-2xl font-bold tracking-tighter text-amber-500 uppercase">AAVISHKAR PRAVAH 2.0</div>
+        <button id="mobile-menu-btn" class="md:hidden text-amber-500 p-2"><span class="material-symbols-outlined">menu</span></button>
+        <div class="hidden md:flex items-center space-x-8">
+            <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="index.html">Home</a>
+            <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="details.html">Details</a>
+            <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="rewards.html">Rewards</a>
+            <a class="font-serif text-sm tracking-widest uppercase text-neutral-400 hover:text-amber-200 transition-colors" href="registration.html">Registration</a>
+            <a class="font-serif text-sm tracking-widest uppercase text-amber-500 border-b border-amber-500 pb-1" href="dashboard.html">Dashboard</a>
+        </div>
+        <div class="hidden md:flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <img id="user-avatar" src="" class="w-8 h-8 rounded-full border border-amber-500/30 hidden" alt="">
+                <span id="user-name-nav" class="text-sm text-neutral-400 hidden"></span>
+            </div>
+            <button id="logout-btn" class="font-serif text-sm tracking-widest uppercase bg-amber-500/10 text-amber-400 px-4 py-2 border border-amber-500/30 hover:bg-amber-500/5 transition-all">Log Out</button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-neutral-950 border-b border-amber-500/20 p-4 flex-col gap-4 shadow-xl md:hidden">
+        <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="index.html">Home</a>
+        <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="details.html">Details</a>
+        <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="rewards.html">Rewards</a>
+        <a class="text-neutral-400 hover:text-amber-200 font-serif text-sm tracking-widest uppercase block p-2" href="registration.html">Registration</a>
+        <a class="text-amber-500 font-serif text-sm tracking-widest uppercase block p-2" href="dashboard.html">Dashboard</a>
+        <button id="logout-btn-mob" class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-6 py-3 mt-2 font-serif text-sm uppercase tracking-widest w-full">Log Out</button>
+    </div>
+</nav>
+
+<!-- Dashboard -->
+<main id="dashboard-content" class="relative pt-32 pb-20 min-h-screen hidden">
+    <div class="max-w-7xl mx-auto px-8 relative z-10">
+        <div class="mb-12 animate-in" style="animation-delay:0.05s">
+            <div class="inline-flex items-center gap-2 px-3 py-1 border border-amber-500/30 bg-amber-500/5 rounded-full mb-6">
+                <span class="material-symbols-outlined text-amber-500 text-sm">space_dashboard</span>
+                <span class="font-label-sm text-label-sm text-amber-500">OPERATIONAL_DASHBOARD</span>
+            </div>
+            <h1 class="font-display-xl text-4xl md:text-5xl text-on-surface mb-2">Welcome, <span class="text-amber-500" id="welcome-name">Hacker</span></h1>
+            <p class="font-body-lg text-on-surface-variant max-w-2xl">Manage your team, view announcements, and submit your project.</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Team Card -->
+                <div class="glass-card p-8 rounded-xl cyber-gold-glow animate-in" style="animation-delay:0.1s">
+                    <div class="flex flex-wrap justify-between items-start mb-6 gap-4">
+                        <div>
+                            <h2 class="font-headline-md text-2xl md:text-3xl font-bold text-on-surface mb-1">Team <span class="text-amber-500" id="team-name-display">—</span></h2>
+                            <p class="text-on-surface-variant font-label-sm uppercase tracking-widest"><span class="text-neutral-500">College:</span> <span class="text-white" id="team-college">—</span></p>
+                            <p class="text-on-surface-variant font-label-sm uppercase tracking-widest mt-1"><span class="text-neutral-500">Branch:</span> <span class="text-white" id="team-branch">—</span></p>
+                        </div>
+                        <div class="bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-2 rounded-full flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">verified</span>
+                            <span class="font-label-sm">VERIFIED</span>
+                        </div>
+                    </div>
+                    <div id="members-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+                </div>
+                <!-- Submission -->
+                <div class="glass-card p-8 rounded-xl border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-transparent animate-in" style="animation-delay:0.2s">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="material-symbols-outlined text-amber-500 text-3xl">upload</span>
+                        <h3 class="font-headline-md text-2xl font-bold">Project Submission</h3>
+                    </div>
+                    <p class="text-on-surface-variant mb-6">Submit your GitHub repository link. Submissions close May 12 at 02:00 PM.</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-label-sm uppercase tracking-widest text-neutral-400 mb-2">GitHub Repository URL</label>
+                            <input type="url" id="github-input" placeholder="https://github.com/yourusername/repo" class="w-full bg-neutral-900/80 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all">
+                        </div>
+                        <button id="submit-repo-btn" class="w-full font-serif tracking-widest uppercase bg-amber-500 text-neutral-950 px-6 py-3 font-bold hover:bg-amber-400 transition-colors">Submit Project</button>
+                        <p id="submit-msg" class="text-sm hidden"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <!-- Challenges -->
+                <div class="glass-card p-6 rounded-xl border-t-4 border-t-amber-500 animate-in" style="animation-delay:0.15s">
+                    <h3 class="font-headline-md text-xl font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-amber-500">extension</span>Event Challenges</h3>
+                    <div class="space-y-3">
+                        <a href="#" class="block p-3 bg-neutral-900/50 border border-white/5 rounded hover:border-amber-500/30 transition-colors group">
+                            <div class="flex justify-between items-center"><span class="font-bold text-on-surface group-hover:text-amber-500 transition-colors">Acoustic Cipher</span><span class="material-symbols-outlined text-neutral-500 text-sm">download</span></div>
+                            <p class="text-xs text-on-surface-variant mt-1">Unlock the secret message embedded in audio.</p>
+                        </a>
+                        <a href="#" class="block p-3 bg-neutral-900/50 border border-white/5 rounded hover:border-amber-500/30 transition-colors group">
+                            <div class="flex justify-between items-center"><span class="font-bold text-on-surface group-hover:text-amber-500 transition-colors">Midnight Mystery</span><span class="material-symbols-outlined text-neutral-500 text-sm">lock</span></div>
+                            <p class="text-xs text-on-surface-variant mt-1">Unlocks at 12:00 AM.</p>
+                        </a>
+                    </div>
+                </div>
+                <!-- Announcements -->
+                <div class="glass-card p-6 rounded-xl relative overflow-hidden animate-in" style="animation-delay:0.25s">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 blur-3xl rounded-full"></div>
+                    <div class="flex justify-between items-center mb-6 relative z-10">
+                        <h3 class="font-headline-md text-xl font-bold flex items-center gap-2"><span class="material-symbols-outlined text-amber-500">campaign</span>Live Updates</h3>
+                        <span class="flex h-3 w-3 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span></span>
+                    </div>
+                    <div id="announcements-list" class="space-y-4 relative z-10">
+                        <div class="border-l-2 border-amber-500 pl-4 py-1"><p class="text-xs text-amber-500 font-label-sm tracking-wider mb-1">LATEST</p><p class="text-sm text-on-surface">Welcome! Check back here for live announcements.</p></div>
+                    </div>
+                </div>
+                <!-- Info -->
+                <div class="glass-card p-6 rounded-xl animate-in" style="animation-delay:0.3s">
+                    <h3 class="font-headline-md text-xl font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-amber-500">info</span>Your Details</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-neutral-500">Email</span><span class="text-on-surface truncate ml-2" id="info-email">—</span></div>
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-neutral-500">Semester</span><span class="text-on-surface" id="info-sem">—</span></div>
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span class="text-neutral-500">Section</span><span class="text-on-surface" id="info-sec">—</span></div>
+                        <div class="flex justify-between"><span class="text-neutral-500">Mobile</span><span class="text-on-surface" id="info-mobile">—</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-neutral-950 w-full py-12 border-t border-amber-900/30">
+    <div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-8 gap-8">
+        <div class="space-y-2">
+            <div class="text-amber-500 font-bold text-xl tracking-tighter font-serif uppercase">AAVISHKAR PRAVAH 2.0</div>
+            <p class="font-serif text-[10px] tracking-widest uppercase text-neutral-600">© 2026 AAVISHKAR PRAVAH 2.0.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// 🔥 FIREBASE CONFIG — MUST MATCH login.html
+// ═══════════════════════════════════════════════════════════
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+// ═══════════════════════════════════════════════════════════
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let currentUser = null;
+let regData = null;
+
+auth.onAuthStateChanged(async (user) => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    currentUser = user;
+    const email = user.email.toLowerCase().trim();
+
+    // Fetch registration data
+    const regDoc = await db.collection('registrations').doc(email).get();
+    if (!regDoc.exists) { await auth.signOut(); window.location.href = 'login.html'; return; }
+    regData = regDoc.data();
+
+    // Show avatar in nav
+    if (user.photoURL) {
+        document.getElementById('user-avatar').src = user.photoURL;
+        document.getElementById('user-avatar').classList.remove('hidden');
+    }
+    document.getElementById('user-name-nav').textContent = regData.leaderName.split(' ')[0];
+    document.getElementById('user-name-nav').classList.remove('hidden');
+
+    // Check if team name exists
+    const teamDoc = await db.collection('teams').doc(email).get();
+    document.getElementById('loading-screen').classList.add('hidden');
+
+    if (!teamDoc.exists || !teamDoc.data().teamName) {
+        // Show team name modal
+        const modal = document.getElementById('teamname-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.getElementById('teamname-input').focus();
+    } else {
+        renderDashboard(teamDoc.data().teamName, teamDoc.data().githubRepo || '');
+    }
+});
+
+// Team name submission
+document.getElementById('teamname-btn').addEventListener('click', async () => {
+    const input = document.getElementById('teamname-input');
+    const err = document.getElementById('teamname-error');
+    const name = input.value.trim();
+    if (name.length < 3 || name.length > 30) {
+        err.textContent = 'Team name must be 3-30 characters';
+        err.classList.remove('hidden');
+        return;
+    }
+    err.classList.add('hidden');
+
+    const email = currentUser.email.toLowerCase().trim();
+    try {
+        await db.collection('teams').doc(email).set({
+            teamName: name,
+            leaderEmail: email,
+            leaderName: regData.leaderName,
+            githubRepo: '',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        document.getElementById('teamname-modal').classList.add('hidden');
+        document.getElementById('teamname-modal').classList.remove('flex');
+        renderDashboard(name, '');
+    } catch (e) {
+        err.textContent = 'Failed to save. Try again.';
+        err.classList.remove('hidden');
+    }
+});
+
+document.getElementById('teamname-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') document.getElementById('teamname-btn').click();
+});
+
+function renderDashboard(teamName, savedRepo) {
+    document.getElementById('dashboard-content').classList.remove('hidden');
+    document.getElementById('welcome-name').textContent = regData.leaderName.split(' ')[0];
+    document.getElementById('team-name-display').textContent = teamName;
+    document.getElementById('team-college').textContent = regData.college;
+    document.getElementById('team-branch').textContent = regData.branch;
+    document.getElementById('info-email').textContent = regData.email;
+    document.getElementById('info-sem').textContent = regData.semester;
+    document.getElementById('info-sec').textContent = regData.section;
+    document.getElementById('info-mobile').textContent = regData.mobile;
+
+    // Members
+    const grid = document.getElementById('members-grid');
+    grid.innerHTML = memberCard(regData.leaderName, regData.leaderUSN, true);
+    (regData.members || []).forEach(m => { grid.innerHTML += memberCard(m.name, m.usn, false); });
+
+    if (savedRepo) document.getElementById('github-input').value = savedRepo;
+
+    // Load announcements
+    loadAnnouncements();
+}
+
+function memberCard(name, usn, isLeader) {
+    const i = name.charAt(0).toUpperCase();
+    const bg = isLeader ? 'bg-amber-500/20' : 'bg-neutral-800';
+    const tc = isLeader ? 'text-amber-500' : 'text-neutral-400';
+    const badge = isLeader ? '<span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded ml-2">LEADER</span>' : '';
+    return `<div class="p-4 bg-neutral-900/50 rounded-lg border border-white/5 flex items-center gap-4"><div class="w-10 h-10 rounded-full ${bg} flex items-center justify-center ${tc} font-bold flex-shrink-0">${i}</div><div class="min-w-0"><p class="font-bold text-on-surface truncate">${name}${badge}</p><p class="text-sm text-on-surface-variant">${usn}</p></div></div>`;
+}
+
+// Submit repo to Firestore
+document.getElementById('submit-repo-btn').addEventListener('click', async () => {
+    const url = document.getElementById('github-input').value.trim();
+    const msg = document.getElementById('submit-msg');
+    if (!url || !url.includes('github.com')) {
+        msg.textContent = '❌ Please enter a valid GitHub URL';
+        msg.className = 'text-red-400 text-sm'; msg.classList.remove('hidden'); return;
+    }
+    try {
+        const email = currentUser.email.toLowerCase().trim();
+        await db.collection('teams').doc(email).update({ githubRepo: url });
+        msg.textContent = '✅ Repository saved successfully!';
+        msg.className = 'text-green-400 text-sm'; msg.classList.remove('hidden');
+    } catch (e) {
+        msg.textContent = '❌ Failed to save. Try again.';
+        msg.className = 'text-red-400 text-sm'; msg.classList.remove('hidden');
+    }
+});
+
+// Real-time announcements from Firestore
+function loadAnnouncements() {
+    db.collection('announcements').orderBy('timestamp', 'desc').limit(10)
+      .onSnapshot((snap) => {
+          if (snap.empty) return;
+          const list = document.getElementById('announcements-list');
+          list.innerHTML = '';
+          snap.forEach((doc, idx) => {
+              const d = doc.data();
+              const isFirst = list.children.length === 0;
+              const border = isFirst ? 'border-amber-500' : 'border-neutral-700';
+              const timeColor = isFirst ? 'text-amber-500' : 'text-neutral-500';
+              const textColor = isFirst ? 'text-on-surface' : 'text-on-surface-variant';
+              const time = d.timestamp ? new Date(d.timestamp.toDate()).toLocaleString() : 'Just now';
+              list.innerHTML += `<div class="border-l-2 ${border} pl-4 py-1"><p class="text-xs ${timeColor} font-label-sm tracking-wider mb-1">${time}</p><p class="text-sm ${textColor}">${d.message}</p></div>`;
+          });
+      });
+}
+
+// Logout
+document.querySelectorAll('#logout-btn, #logout-btn-mob').forEach(b => {
+    b.addEventListener('click', async () => { await auth.signOut(); window.location.href = 'login.html'; });
+});
+
+// Mobile menu
+const mb = document.getElementById('mobile-menu-btn');
+const mm = document.getElementById('mobile-menu');
+if (mb && mm) mb.addEventListener('click', () => { mm.classList.toggle('hidden'); mm.classList.toggle('flex'); });
+</script>
+</body>
+</html>
