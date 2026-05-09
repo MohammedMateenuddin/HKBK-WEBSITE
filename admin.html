@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Admin | Aavishkar Pravah 2.0</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#ffcc7a","on-surface":"#e5e2e3","on-surface-variant":"#d3c4b3",background:"#131314"},fontFamily:{"display-xl":["Noto Serif"],"body-md":["Space Grotesk"],"headline-md":["Noto Serif"],"label-sm":["Space Grotesk"]}}}}</script>
+<style>
+body{background:#0a0a0b;color:#e5e2e3;font-family:'Space Grotesk',sans-serif}
+.glass{background:rgba(20,20,22,.7);backdrop-filter:blur(20px);border:1px solid rgba(255,204,122,.1)}
+.glass::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,204,122,.3),transparent)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .5s ease forwards;opacity:0}
+.stat-card{transition:transform .2s,box-shadow .2s}.stat-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(255,204,122,.08)}
+input,textarea,select{background:rgba(30,30,32,.8)!important;border:1px solid rgba(255,255,255,.1)!important;color:#fff!important}
+input:focus,textarea:focus,select:focus{border-color:rgba(255,204,122,.5)!important;outline:none!important;box-shadow:0 0 0 2px rgba(255,204,122,.15)!important}
+table{border-collapse:separate;border-spacing:0}
+th{position:sticky;top:0;z-index:10;background:#131314}
+.pulse{animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,204,122,.2);border-radius:3px}
+</style>
+</head>
+<body class="antialiased min-h-screen">
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+<div class="w-full max-w-sm fade-in">
+<div class="text-center mb-8">
+<div class="font-serif text-2xl font-bold text-amber-500 uppercase tracking-tight mb-1">ADMIN CONTROL</div>
+<p class="text-neutral-500 text-xs tracking-[.3em] uppercase">Aavishkar Pravah 2.0</p>
+</div>
+<div class="glass rounded-xl p-8 relative">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center"><span class="material-symbols-outlined text-red-400">shield_person</span></div>
+<div><h1 class="font-serif text-lg font-bold">Admin Access</h1><p class="text-xs text-neutral-500">Restricted area</p></div>
+</div>
+<div class="space-y-4">
+<div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Username</label><input type="text" id="admin-user" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="Enter username"></div>
+<div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Password</label><input type="password" id="admin-pass" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="Enter password"></div>
+<button id="admin-login-btn" class="w-full bg-red-500 text-white font-bold py-2.5 rounded-lg hover:bg-red-400 transition text-sm uppercase tracking-widest">Authenticate</button>
+<p id="login-err" class="text-red-400 text-xs text-center hidden"></p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div id="admin-dash" class="hidden">
+<!-- Top Bar -->
+<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-red-500/20 h-16">
+<div class="flex justify-between items-center max-w-[1600px] mx-auto px-6 h-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-400">shield_person</span>
+<span class="font-serif font-bold text-red-400 uppercase tracking-tight">Admin Panel</span>
+<span class="text-neutral-600">|</span>
+<span class="text-xs text-neutral-500 uppercase tracking-widest">Aavishkar Pravah 2.0</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs text-neutral-500" id="live-clock"></span>
+<span class="flex h-2 w-2"><span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+<button id="admin-logout" class="text-xs uppercase tracking-widest text-red-400 border border-red-500/30 px-3 py-1.5 rounded hover:bg-red-500/10 transition">Logout</button>
+</div>
+</div>
+</nav>
+
+<main class="pt-24 pb-16 max-w-[1600px] mx-auto px-6">
+<!-- Stats Row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" id="stats-row">
+<div class="glass rounded-xl p-5 relative stat-card fade-in" style="animation-delay:.05s"><p class="text-xs text-neutral-500 uppercase tracking-widest mb-1">Total Registered</p><p class="text-3xl font-bold text-amber-500" id="s-total">—</p></div>
+<div class="glass rounded-xl p-5 relative stat-card fade-in" style="animation-delay:.1s"><p class="text-xs text-neutral-500 uppercase tracking-widest mb-1">Teams Formed</p><p class="text-3xl font-bold text-green-400" id="s-teams">—</p></div>
+<div class="glass rounded-xl p-5 relative stat-card fade-in" style="animation-delay:.15s"><p class="text-xs text-neutral-500 uppercase tracking-widest mb-1">Repos Submitted</p><p class="text-3xl font-bold text-blue-400" id="s-repos">—</p></div>
+<div class="glass rounded-xl p-5 relative stat-card fade-in" style="animation-delay:.2s"><p class="text-xs text-neutral-500 uppercase tracking-widest mb-1">Pending Login</p><p class="text-3xl font-bold text-red-400" id="s-pending">—</p></div>
+</div>
+
+<!-- Tabs -->
+<div class="flex gap-2 mb-6 flex-wrap">
+<button class="tab-btn active-tab text-sm px-4 py-2 rounded-lg border transition" data-tab="tab-all">All Registrations</button>
+<button class="tab-btn text-sm px-4 py-2 rounded-lg border transition" data-tab="tab-teams">Active Teams</button>
+<button class="tab-btn text-sm px-4 py-2 rounded-lg border transition" data-tab="tab-pending">Pending</button>
+<button class="tab-btn text-sm px-4 py-2 rounded-lg border transition" data-tab="tab-submissions">Submissions</button>
+<button class="tab-btn text-sm px-4 py-2 rounded-lg border transition" data-tab="tab-announce">Announcements</button>
+</div>
+
+<!-- Search -->
+<div class="mb-4"><input type="text" id="search-box" placeholder="🔍  Search by email, name, team, college..." class="w-full md:w-96 rounded-lg px-4 py-2.5 text-sm"></div>
+
+<!-- Tab: All Registrations -->
+<div id="tab-all" class="tab-panel">
+<div class="glass rounded-xl relative overflow-hidden">
+<div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
+<table class="w-full text-sm text-left">
+<thead><tr class="border-b border-white/5 text-xs uppercase tracking-widest text-neutral-500">
+<th class="p-3">#</th><th class="p-3">Email</th><th class="p-3">Leader</th><th class="p-3">USN</th><th class="p-3">Members</th><th class="p-3">College</th><th class="p-3">Branch</th><th class="p-3">Sem</th><th class="p-3">Mobile</th><th class="p-3">Status</th>
+</tr></thead>
+<tbody id="table-all"></tbody>
+</table>
+</div>
+</div>
+<div class="mt-3 flex justify-between items-center"><span class="text-xs text-neutral-500" id="count-all"></span><button id="export-csv" class="text-xs text-amber-500 border border-amber-500/30 px-3 py-1.5 rounded hover:bg-amber-500/10 transition uppercase tracking-widest">Export CSV</button></div>
+</div>
+
+<!-- Tab: Active Teams -->
+<div id="tab-teams" class="tab-panel hidden">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teams-grid"></div>
+</div>
+
+<!-- Tab: Pending -->
+<div id="tab-pending" class="tab-panel hidden">
+<div class="glass rounded-xl relative overflow-hidden">
+<div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
+<table class="w-full text-sm text-left">
+<thead><tr class="border-b border-white/5 text-xs uppercase tracking-widest text-neutral-500">
+<th class="p-3">#</th><th class="p-3">Email</th><th class="p-3">Leader</th><th class="p-3">College</th><th class="p-3">Branch</th><th class="p-3">Mobile</th>
+</tr></thead>
+<tbody id="table-pending"></tbody>
+</table>
+</div>
+</div>
+<span class="text-xs text-neutral-500 mt-3 block" id="count-pending"></span>
+</div>
+
+<!-- Tab: Submissions -->
+<div id="tab-submissions" class="tab-panel hidden">
+<div class="glass rounded-xl relative overflow-hidden">
+<div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
+<table class="w-full text-sm text-left">
+<thead><tr class="border-b border-white/5 text-xs uppercase tracking-widest text-neutral-500">
+<th class="p-3">#</th><th class="p-3">Team Name</th><th class="p-3">Leader</th><th class="p-3">Email</th><th class="p-3">GitHub Repo</th><th class="p-3">Submitted At</th>
+</tr></thead>
+<tbody id="table-subs"></tbody>
+</table>
+</div>
+</div>
+<span class="text-xs text-neutral-500 mt-3 block" id="count-subs"></span>
+</div>
+
+<!-- Tab: Announcements -->
+<div id="tab-announce" class="tab-panel hidden">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div class="glass rounded-xl p-6 relative">
+<h3 class="font-serif text-lg font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-amber-500">campaign</span>Broadcast Announcement</h3>
+<textarea id="announce-msg" rows="3" class="w-full rounded-lg px-4 py-3 text-sm mb-3" placeholder="Type your announcement here..."></textarea>
+<button id="announce-btn" class="bg-amber-500 text-black font-bold px-6 py-2.5 rounded-lg hover:bg-amber-400 transition text-sm uppercase tracking-widest">Send to All Teams</button>
+<p id="announce-status" class="text-xs mt-2 hidden"></p>
+</div>
+<div class="glass rounded-xl p-6 relative">
+<h3 class="font-serif text-lg font-bold mb-4">Previous Announcements</h3>
+<div id="announce-list" class="space-y-3 max-h-80 overflow-y-auto"></div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyAJCgxXdKt-mY3BDJttXUS-Yv2I3I4Joew",
+    authDomain: "hkbk-hackathon.firebaseapp.com",
+    projectId: "hkbk-hackathon",
+    storageBucket: "hkbk-hackathon.firebasestorage.app",
+    messagingSenderId: "397486983592",
+    appId: "1:397486983592:web:6f892b653bfc158036f59d",
+    measurementId: "G-211WFH8MX7"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const ADMIN_USER = 'admin69';
+const ADMIN_PASS = 'AdminLessGoo';
+
+let allRegs = [], allTeams = [];
+
+// Clock
+setInterval(() => {
+    const el = document.getElementById('live-clock');
+    if (el) el.textContent = new Date().toLocaleString('en-IN', {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
+}, 1000);
+
+// Login
+document.getElementById('admin-login-btn').addEventListener('click', doLogin);
+document.getElementById('admin-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+    const u = document.getElementById('admin-user').value.trim();
+    const p = document.getElementById('admin-pass').value;
+    const err = document.getElementById('login-err');
+    if (u !== ADMIN_USER || p !== ADMIN_PASS) {
+        err.textContent = '❌ Invalid credentials'; err.classList.remove('hidden'); return;
+    }
+    err.classList.add('hidden');
+    try {
+        await auth.signInAnonymously();
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('admin-dash').classList.remove('hidden');
+        loadData();
+    } catch (e) {
+        err.textContent = 'Auth error: ' + e.message; err.classList.remove('hidden');
+    }
+}
+
+// Logout
+document.getElementById('admin-logout').addEventListener('click', () => {
+    auth.signOut(); location.reload();
+});
+
+// Load all data
+async function loadData() {
+    const [regSnap, teamSnap] = await Promise.all([
+        db.collection('registrations').get(),
+        db.collection('teams').get()
+    ]);
+    allRegs = []; regSnap.forEach(d => allRegs.push(d.data()));
+    allTeams = []; teamSnap.forEach(d => allTeams.push(d.data()));
+
+    const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
+    const reposSubmitted = allTeams.filter(t => t.githubRepo).length;
+    const pending = allRegs.filter(r => !teamEmails.has(r.email));
+
+    document.getElementById('s-total').textContent = allRegs.length;
+    document.getElementById('s-teams').textContent = allTeams.length;
+    document.getElementById('s-repos').textContent = reposSubmitted;
+    document.getElementById('s-pending').textContent = pending.length;
+
+    renderAllTable(allRegs, allTeams);
+    renderTeamsGrid(allTeams);
+    renderPendingTable(pending);
+    renderSubsTable(allTeams.filter(t => t.githubRepo));
+    loadAnnouncements();
+}
+
+// Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active-tab'); b.style.background = ''; b.style.borderColor = 'rgba(255,255,255,.1)'; b.style.color = '#999'; });
+        btn.classList.add('active-tab'); btn.style.background = 'rgba(255,204,122,.1)'; btn.style.borderColor = 'rgba(255,204,122,.3)'; btn.style.color = '#ffcc7a';
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+        document.getElementById(btn.dataset.tab).classList.remove('hidden');
+    });
+});
+// Init active tab style
+document.querySelector('.tab-btn.active-tab').style.background = 'rgba(255,204,122,.1)';
+document.querySelector('.tab-btn.active-tab').style.borderColor = 'rgba(255,204,122,.3)';
+document.querySelector('.tab-btn.active-tab').style.color = '#ffcc7a';
+document.querySelectorAll('.tab-btn:not(.active-tab)').forEach(b => { b.style.borderColor = 'rgba(255,255,255,.1)'; b.style.color = '#999'; });
+
+// Search
+document.getElementById('search-box').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
+    const teamMap = {};
+    allTeams.forEach(t => teamMap[t.leaderEmail] = t);
+
+    const filteredRegs = allRegs.filter(r => JSON.stringify(r).toLowerCase().includes(q));
+    const filteredTeams = allTeams.filter(t => JSON.stringify(t).toLowerCase().includes(q));
+    const pending = filteredRegs.filter(r => !teamEmails.has(r.email));
+
+    renderAllTable(filteredRegs, allTeams);
+    renderTeamsGrid(filteredTeams);
+    renderPendingTable(pending);
+    renderSubsTable(filteredTeams.filter(t => t.githubRepo));
+});
+
+function renderAllTable(regs, teams) {
+    const teamMap = {}; teams.forEach(t => teamMap[t.leaderEmail] = t);
+    const tbody = document.getElementById('table-all');
+    tbody.innerHTML = regs.map((r, i) => {
+        const hasTeam = teamMap[r.email];
+        const status = hasTeam ? '<span class="text-green-400">✓ Active</span>' : '<span class="text-yellow-400">Pending</span>';
+        const members = (r.members || []).map(m => m.name).join(', ') || '—';
+        return `<tr class="border-b border-white/5 hover:bg-white/[.02] transition"><td class="p-3 text-neutral-500">${i+1}</td><td class="p-3 text-xs">${r.email}</td><td class="p-3 font-medium">${r.leaderName}</td><td class="p-3 text-xs text-neutral-400">${r.leaderUSN}</td><td class="p-3 text-xs text-neutral-400">${members}</td><td class="p-3 text-xs">${r.college||'—'}</td><td class="p-3 text-xs">${r.branch||'—'}</td><td class="p-3 text-xs">${r.semester||'—'}</td><td class="p-3 text-xs">${r.mobile||'—'}</td><td class="p-3 text-xs">${status}</td></tr>`;
+    }).join('');
+    document.getElementById('count-all').textContent = `Showing ${regs.length} registrations`;
+}
+
+function renderTeamsGrid(teams) {
+    const grid = document.getElementById('teams-grid');
+    grid.innerHTML = teams.map(t => {
+        const reg = allRegs.find(r => r.email === t.leaderEmail) || {};
+        const members = (reg.members || []).map(m => `<span class="inline-block bg-neutral-800 text-xs px-2 py-0.5 rounded mr-1 mb-1">${m.name}</span>`).join('');
+        const repo = t.githubRepo ? `<a href="${t.githubRepo}" target="_blank" class="text-blue-400 hover:underline text-xs break-all">${t.githubRepo}</a>` : '<span class="text-neutral-600 text-xs">No submission</span>';
+        return `<div class="glass rounded-xl p-5 relative"><div class="flex justify-between items-start mb-3"><div><p class="font-serif font-bold text-amber-500 text-lg">${t.teamName}</p><p class="text-xs text-neutral-500">${t.leaderEmail}</p></div><span class="text-xs bg-green-500/10 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">ACTIVE</span></div><div class="space-y-2 text-sm"><div><span class="text-neutral-500 text-xs">Leader:</span> <span class="font-medium">${t.leaderName||reg.leaderName||'—'}</span></div><div><span class="text-neutral-500 text-xs">Members:</span> <div class="mt-1">${members||'—'}</div></div><div><span class="text-neutral-500 text-xs">Repo:</span> ${repo}</div></div></div>`;
+    }).join('');
+}
+
+function renderPendingTable(pending) {
+    const tbody = document.getElementById('table-pending');
+    tbody.innerHTML = pending.map((r, i) => {
+        return `<tr class="border-b border-white/5 hover:bg-white/[.02]"><td class="p-3 text-neutral-500">${i+1}</td><td class="p-3 text-xs">${r.email}</td><td class="p-3 font-medium">${r.leaderName}</td><td class="p-3 text-xs">${r.college||'—'}</td><td class="p-3 text-xs">${r.branch||'—'}</td><td class="p-3 text-xs">${r.mobile||'—'}</td></tr>`;
+    }).join('');
+    document.getElementById('count-pending').textContent = `${pending.length} teams haven't logged in yet`;
+}
+
+function renderSubsTable(teams) {
+    const tbody = document.getElementById('table-subs');
+    tbody.innerHTML = teams.map((t, i) => {
+        return `<tr class="border-b border-white/5 hover:bg-white/[.02]"><td class="p-3 text-neutral-500">${i+1}</td><td class="p-3 font-medium text-amber-500">${t.teamName}</td><td class="p-3">${t.leaderName||'—'}</td><td class="p-3 text-xs">${t.leaderEmail}</td><td class="p-3 text-xs"><a href="${t.githubRepo}" target="_blank" class="text-blue-400 hover:underline break-all">${t.githubRepo}</a></td><td class="p-3 text-xs text-neutral-400">${t.createdAt?new Date(t.createdAt.toDate()).toLocaleString('en-IN'):'—'}</td></tr>`;
+    }).join('');
+    document.getElementById('count-subs').textContent = `${teams.length} submissions received`;
+}
+
+// Announcements
+function loadAnnouncements() {
+    db.collection('announcements').orderBy('timestamp','desc').limit(20).onSnapshot(snap => {
+        const list = document.getElementById('announce-list');
+        list.innerHTML = '';
+        if (snap.empty) { list.innerHTML = '<p class="text-neutral-600 text-sm">No announcements yet.</p>'; return; }
+        snap.forEach(doc => {
+            const d = doc.data();
+            const time = d.timestamp ? new Date(d.timestamp.toDate()).toLocaleString('en-IN') : 'Just now';
+            list.innerHTML += `<div class="border-l-2 border-amber-500/50 pl-3 py-1"><p class="text-xs text-amber-500/70 mb-0.5">${time}</p><p class="text-sm">${d.message}</p><button onclick="deleteAnnouncement('${doc.id}')" class="text-xs text-red-400/50 hover:text-red-400 mt-1">Delete</button></div>`;
+        });
+    });
+}
+
+document.getElementById('announce-btn').addEventListener('click', async () => {
+    const msg = document.getElementById('announce-msg').value.trim();
+    const status = document.getElementById('announce-status');
+    if (!msg) { status.textContent = '❌ Write something first'; status.className = 'text-xs mt-2 text-red-400'; return; }
+    await db.collection('announcements').add({ message: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+    document.getElementById('announce-msg').value = '';
+    status.textContent = '✅ Sent to all dashboards!'; status.className = 'text-xs mt-2 text-green-400';
+    setTimeout(() => status.classList.add('hidden'), 3000);
+});
+
+async function deleteAnnouncement(id) { await db.collection('announcements').doc(id).delete(); }
+
+// Export CSV
+document.getElementById('export-csv').addEventListener('click', () => {
+    const teamMap = {}; allTeams.forEach(t => teamMap[t.leaderEmail] = t);
+    let csv = 'Email,Leader,USN,Members,College,Branch,Semester,Section,Mobile,Team Name,GitHub Repo,Status\n';
+    allRegs.forEach(r => {
+        const t = teamMap[r.email];
+        const members = (r.members||[]).map(m=>m.name).join('; ');
+        csv += `"${r.email}","${r.leaderName}","${r.leaderUSN}","${members}","${r.college||''}","${r.branch||''}","${r.semester||''}","${r.section||''}","${r.mobile||''}","${t?t.teamName:''}","${t?t.githubRepo||'':''}","${t?'Active':'Pending'}"\n`;
+    });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'hackathon_data_export.csv'; a.click();
+});
+</script>
+</body>
+</html>
