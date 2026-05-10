@@ -168,15 +168,27 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // If already logged in, redirect
+        // Force session to persist across browser restarts
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+        // Hide login card while checking existing session
+        document.getElementById('login-card').style.opacity = '0';
+        document.getElementById('login-card').style.pointerEvents = 'none';
+
+        // If already logged in, silently redirect — no login needed
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 const email = user.email.toLowerCase().trim();
                 const doc = await db.collection('registrations').doc(email).get();
                 if (doc.exists) {
                     window.location.href = 'dashboard.html';
+                    return;
                 }
             }
+            // No session — show the login card
+            document.getElementById('login-card').style.opacity = '1';
+            document.getElementById('login-card').style.pointerEvents = 'auto';
+            document.getElementById('login-card').style.transition = 'opacity 0.3s ease';
         });
 
         document.getElementById('google-btn').addEventListener('click', async () => {
