@@ -225,14 +225,21 @@ document.getElementById('admin-logout').addEventListener('click', () => {
     auth.signOut(); location.reload();
 });
 
+const TEST_EMAILS = [
+    'boyzkiller9876@gmail.com',
+    'mohammedraheesh284@gmail.com',
+    'mateenuddin987@gmail.com',
+    'naumaanmohammed96@gmail.com'
+];
+
 // Load all data
 async function loadData() {
     const [regSnap, teamSnap] = await Promise.all([
         db.collection('registrations').get(),
         db.collection('teams').get()
     ]);
-    allRegs = []; regSnap.forEach(d => allRegs.push({...d.data(), _docId: d.id}));
-    allTeams = []; teamSnap.forEach(d => allTeams.push({...d.data(), _docId: d.id}));
+    allRegs = []; regSnap.forEach(d => { if (!TEST_EMAILS.includes(d.id)) allRegs.push({...d.data(), _docId: d.id}) });
+    allTeams = []; teamSnap.forEach(d => { if (!TEST_EMAILS.includes(d.data().leaderEmail)) allTeams.push({...d.data(), _docId: d.id}) });
 
     const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
     const reposSubmitted = allTeams.filter(t => t.githubRepo).length;
