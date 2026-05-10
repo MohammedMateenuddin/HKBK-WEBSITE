@@ -85,8 +85,15 @@ th{position:sticky;top:0;z-index:10;background:#131314}
 <button class="tab-btn text-sm px-4 py-2 rounded-lg border transition" data-tab="tab-announce">Announcements</button>
 </div>
 
-<!-- Search -->
-<div class="mb-4"><input type="text" id="search-box" placeholder="🔍  Search by email, name, team, college..." class="w-full md:w-96 rounded-lg px-4 py-2.5 text-sm"></div>
+<!-- Search and Sort -->
+<div class="mb-4 flex flex-wrap gap-4 items-center">
+    <input type="text" id="search-box" placeholder="🔍  Search by email, name, team, college..." class="w-full md:w-96 rounded-lg px-4 py-2.5 text-sm">
+    <select id="sort-box" class="rounded-lg px-4 py-2.5 text-sm cursor-pointer border border-white/10 bg-[#1e1e20]">
+        <option value="newest">Sort: Newest First</option>
+        <option value="oldest">Sort: Oldest First</option>
+        <option value="az">Sort: Alphabetical (A-Z)</option>
+    </select>
+</div>
 
 <!-- Tab: All Registrations -->
 <div id="tab-all" class="tab-panel">
@@ -236,10 +243,7 @@ async function loadData() {
     document.getElementById('s-repos').textContent = reposSubmitted;
     document.getElementById('s-pending').textContent = pending.length;
 
-    renderAllTable(allRegs, allTeams);
-    renderTeamsGrid(allTeams);
-    renderPendingTable(pending);
-    renderSubsTable(allTeams.filter(t => t.githubRepo));
+    updateViews();
     loadAnnouncements();
 }
 
@@ -258,22 +262,51 @@ document.querySelector('.tab-btn.active-tab').style.borderColor = 'rgba(255,204,
 document.querySelector('.tab-btn.active-tab').style.color = '#ffcc7a';
 document.querySelectorAll('.tab-btn:not(.active-tab)').forEach(b => { b.style.borderColor = 'rgba(255,255,255,.1)'; b.style.color = '#999'; });
 
-// Search
-document.getElementById('search-box').addEventListener('input', e => {
-    const q = e.target.value.toLowerCase();
-    const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
-    const teamMap = {};
-    allTeams.forEach(t => teamMap[t.leaderEmail] = t);
+// Search and Sort
+document.getElementById('search-box').addEventListener('input', updateViews);
+document.getElementById('sort-box').addEventListener('change', updateViews);
 
-    const filteredRegs = allRegs.filter(r => JSON.stringify(r).toLowerCase().includes(q));
-    const filteredTeams = allTeams.filter(t => JSON.stringify(t).toLowerCase().includes(q));
-    const pending = filteredRegs.filter(r => !teamEmails.has(r.email));
+function updateViews() {
+    const q = document.getElementById('search-box').value.toLowerCase();
+    const sortMode = document.getElementById('sort-box').value;
+    const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
+
+    let filteredRegs = allRegs.filter(r => JSON.stringify(r).toLowerCase().includes(q));
+    let filteredTeams = allTeams.filter(t => JSON.stringify(t).toLowerCase().includes(q));
+    let pending = filteredRegs.filter(r => !teamEmails.has(r.email));
+    let subs = filteredTeams.filter(t => t.githubRepo);
+
+    // Sorting Logic
+    const sortFn = (a, b) => {
+        if (sortMode === 'az') {
+            const nameA = a.teamName || a.leaderName || '';
+            const nameB = b.teamName || b.leaderName || '';
+            return nameA.localeCompare(nameB);
+        }
+        // For oldest/newest, try to use createdAt
+        const timeA = a.createdAt ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt ? b.createdAt.toMillis() : 0;
+        if (timeA === timeB) return 0;
+        return sortMode === 'newest' ? timeB - timeA : timeA - timeB;
+    };
+
+    if (sortMode === 'newest') {
+        filteredRegs.reverse();
+        pending.reverse();
+    }
+
+    filteredTeams.sort(sortFn);
+    subs.sort(sortFn);
+    if (sortMode === 'az') {
+        filteredRegs.sort(sortFn);
+        pending.sort(sortFn);
+    }
 
     renderAllTable(filteredRegs, allTeams);
     renderTeamsGrid(filteredTeams);
     renderPendingTable(pending);
-    renderSubsTable(filteredTeams.filter(t => t.githubRepo));
-});
+    renderSubsTable(subs);
+}
 
 function renderAllTable(regs, teams) {
     const teamMap = {}; teams.forEach(t => teamMap[t.leaderEmail] = t);

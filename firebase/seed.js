@@ -28,7 +28,7 @@ function parseCSVRow(row) {
 
 // ─── MAIN ───
 async function seed() {
-    const csvPath = '../docs/1 day workshop +24 hours hackathon in Collaboration with  updated count (3).csv';
+    const csvPath = '../docs/1 day workshop +24 hours hackathon in Collaboration with  (5).csv';
     const text = readFileSync(csvPath, 'utf8');
     const rows = text.split('\n').slice(1).filter(r => r.trim());
 
