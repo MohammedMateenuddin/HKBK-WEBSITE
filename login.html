@@ -168,40 +168,15 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Force session to persist across browser restarts
-        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-        // Hide login card while checking existing session
-        document.getElementById('login-card').style.opacity = '0';
-        document.getElementById('login-card').style.pointerEvents = 'none';
-
-        function showLoginCard() {
-            const card = document.getElementById('login-card');
-            card.style.opacity = '1';
-            card.style.pointerEvents = 'auto';
-            card.style.transition = 'opacity 0.3s ease';
-        }
-
-        // Safety fallback: if Firebase takes more than 3s (slow mobile network), show the card
-        const authTimeout = setTimeout(showLoginCard, 3000);
-
-        // If already logged in, silently redirect — no login needed
+        // If already logged in, redirect
         auth.onAuthStateChanged(async (user) => {
-            clearTimeout(authTimeout); // Firebase responded in time, cancel fallback
             if (user) {
                 const email = user.email.toLowerCase().trim();
-                try {
-                    const doc = await db.collection('registrations').doc(email).get();
-                    if (doc.exists) {
-                        window.location.href = 'dashboard.html';
-                        return;
-                    }
-                } catch (e) {
-                    // Firestore fetch failed (offline?) — show login
+                const doc = await db.collection('registrations').doc(email).get();
+                if (doc.exists) {
+                    window.location.href = 'dashboard.html';
                 }
             }
-            // No session or unregistered user — show login card
-            showLoginCard();
         });
 
         document.getElementById('google-btn').addEventListener('click', async () => {
