@@ -94,17 +94,23 @@ th{position:sticky;top:0;z-index:10;background:#131314}
 <div class="overflow-x-auto max-h-[60vh] overflow-y-auto">
 <table class="w-full text-sm text-left">
 <thead><tr class="border-b border-white/5 text-xs uppercase tracking-widest text-neutral-500">
-<th class="p-3">#</th><th class="p-3">Email</th><th class="p-3">Leader</th><th class="p-3">USN</th><th class="p-3">Members</th><th class="p-3">College</th><th class="p-3">Branch</th><th class="p-3">Sem</th><th class="p-3">Mobile</th><th class="p-3">Status</th>
+<th class="p-3">#</th><th class="p-3">Email</th><th class="p-3">Leader</th><th class="p-3">USN</th><th class="p-3">Members</th><th class="p-3">College</th><th class="p-3">Branch</th><th class="p-3">Sem</th><th class="p-3">Mobile</th><th class="p-3">Status</th><th class="p-3">Override</th>
 </tr></thead>
 <tbody id="table-all"></tbody>
 </table>
 </div>
 </div>
-<div class="mt-3 flex justify-between items-center"><span class="text-xs text-neutral-500" id="count-all"></span><button id="export-csv" class="text-xs text-amber-500 border border-amber-500/30 px-3 py-1.5 rounded hover:bg-amber-500/10 transition uppercase tracking-widest">Export CSV</button></div>
+<div class="mt-3 flex justify-between items-center flex-wrap gap-2"><span class="text-xs text-neutral-500" id="count-all"></span><div class="flex gap-2"><button onclick="openAddTeamModal()" class="text-xs text-amber-500 border border-amber-500/30 px-3 py-1.5 rounded hover:bg-amber-500/10 transition uppercase tracking-widest flex items-center gap-1"><span class="material-symbols-outlined" style="font-size:13px;">group_add</span> Add Team</button><button id="export-csv" class="text-xs text-amber-500 border border-amber-500/30 px-3 py-1.5 rounded hover:bg-amber-500/10 transition uppercase tracking-widest">Export CSV</button></div></div>
 </div>
 
 <!-- Tab: Active Teams -->
 <div id="tab-teams" class="tab-panel hidden">
+<div class="flex justify-between items-center mb-4">
+  <span class="text-xs text-neutral-500" id="count-teams"></span>
+  <button onclick="downloadTeamsExcel()" class="text-xs text-green-400 border border-green-500/30 px-3 py-1.5 rounded hover:bg-green-500/10 transition uppercase tracking-widest flex items-center gap-2">
+    <span class="material-symbols-outlined" style="font-size:14px;">download</span> Download Excel
+  </button>
+</div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teams-grid"></div>
 </div>
 
@@ -218,8 +224,8 @@ async function loadData() {
         db.collection('registrations').get(),
         db.collection('teams').get()
     ]);
-    allRegs = []; regSnap.forEach(d => allRegs.push(d.data()));
-    allTeams = []; teamSnap.forEach(d => allTeams.push(d.data()));
+    allRegs = []; regSnap.forEach(d => allRegs.push({...d.data(), _docId: d.id}));
+    allTeams = []; teamSnap.forEach(d => allTeams.push({...d.data(), _docId: d.id}));
 
     const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
     const reposSubmitted = allTeams.filter(t => t.githubRepo).length;
@@ -274,9 +280,14 @@ function renderAllTable(regs, teams) {
     const tbody = document.getElementById('table-all');
     tbody.innerHTML = regs.map((r, i) => {
         const hasTeam = teamMap[r.email];
-        const status = hasTeam ? '<span class="text-green-400">✓ Active</span>' : '<span class="text-yellow-400">Pending</span>';
+        const effStatus = r.statusOverride || (hasTeam ? 'active' : 'pending');
+        const statusBadge = effStatus === 'active' ? '<span class="text-green-400">✓ Active</span>' : '<span class="text-yellow-400">⏳ Pending</span>';
+        const manualTag = r.statusOverride ? ' <span class="text-purple-400 text-[10px]">(manual)</span>' : '';
         const members = (r.members || []).map(m => m.name).join(', ') || '—';
-        return `<tr class="border-b border-white/5 hover:bg-white/[.02] transition"><td class="p-3 text-neutral-500">${i+1}</td><td class="p-3 text-xs">${r.email}</td><td class="p-3 font-medium">${r.leaderName}</td><td class="p-3 text-xs text-neutral-400">${r.leaderUSN}</td><td class="p-3 text-xs text-neutral-400">${members}</td><td class="p-3 text-xs">${r.college||'—'}</td><td class="p-3 text-xs">${r.branch||'—'}</td><td class="p-3 text-xs">${r.semester||'—'}</td><td class="p-3 text-xs">${r.mobile||'—'}</td><td class="p-3 text-xs">${status}</td></tr>`;
+        const nextStatus = effStatus === 'active' ? 'pending' : 'active';
+        const toggleCls = effStatus === 'active' ? 'text-red-400 border-red-500/30 hover:bg-red-500/10' : 'text-green-400 border-green-500/30 hover:bg-green-500/10';
+        const resetBtn = r.statusOverride ? `<button onclick="overrideStatus('${r._docId}',null)" class="text-[10px] text-neutral-500 hover:text-white ml-1">reset</button>` : '';
+        return `<tr class="border-b border-white/5 hover:bg-white/[.02] transition"><td class="p-3 text-neutral-500">${i+1}</td><td class="p-3 text-xs">${r.email}</td><td class="p-3 font-medium">${r.leaderName}</td><td class="p-3 text-xs text-neutral-400">${r.leaderUSN||'—'}</td><td class="p-3 text-xs text-neutral-400">${members}</td><td class="p-3 text-xs">${r.college||'—'}</td><td class="p-3 text-xs">${r.branch||'—'}</td><td class="p-3 text-xs">${r.semester||'—'}</td><td class="p-3 text-xs">${r.mobile||'—'}</td><td class="p-3 text-xs">${statusBadge}${manualTag}</td><td class="p-3"><button onclick="overrideStatus('${r._docId}','${nextStatus}')" class="text-xs border px-2 py-1 rounded transition ${toggleCls}">→ ${nextStatus}</button>${resetBtn}</td></tr>`;
     }).join('');
     document.getElementById('count-all').textContent = `Showing ${regs.length} registrations`;
 }
@@ -287,8 +298,14 @@ function renderTeamsGrid(teams) {
         const reg = allRegs.find(r => r.email === t.leaderEmail) || {};
         const members = (reg.members || []).map(m => `<span class="inline-block bg-neutral-800 text-xs px-2 py-0.5 rounded mr-1 mb-1">${m.name}</span>`).join('');
         const repo = t.githubRepo ? `<a href="${t.githubRepo}" target="_blank" class="text-blue-400 hover:underline text-xs break-all">${t.githubRepo}</a>` : '<span class="text-neutral-600 text-xs">No submission</span>';
-        return `<div class="glass rounded-xl p-5 relative"><div class="flex justify-between items-start mb-3"><div><p class="font-serif font-bold text-amber-500 text-lg">${t.teamName}</p><p class="text-xs text-neutral-500">${t.leaderEmail}</p></div><span class="text-xs bg-green-500/10 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">ACTIVE</span></div><div class="space-y-2 text-sm"><div><span class="text-neutral-500 text-xs">Leader:</span> <span class="font-medium">${t.leaderName||reg.leaderName||'—'}</span></div><div><span class="text-neutral-500 text-xs">Members:</span> <div class="mt-1">${members||'—'}</div></div><div><span class="text-neutral-500 text-xs">Repo:</span> ${repo}</div></div></div>`;
+        const isPaid = t.paymentVerified === true;
+        const payBtnCls = isPaid ? 'bg-green-500/20 text-green-400 border-green-500/40 hover:bg-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30 hover:bg-red-500/20';
+        const payLabel = isPaid ? '✓ Payment Verified' : '✗ Not Verified';
+        const payBtn = `<button onclick="togglePayment('${t._docId}',${isPaid})" class="text-xs px-3 py-1.5 rounded-full border transition ${payBtnCls}">${payLabel}</button>`;
+        return `<div class="glass rounded-xl p-5 relative flex flex-col"><div class="flex justify-between items-start mb-3"><div><p class="font-serif font-bold text-amber-500 text-lg">${t.teamName}</p><p class="text-xs text-neutral-500">${t.leaderEmail}</p></div><span class="text-xs bg-green-500/10 text-green-400 border border-green-500/30 px-2 py-0.5 rounded-full">ACTIVE</span></div><div class="space-y-2 text-sm flex-1"><div><span class="text-neutral-500 text-xs">Leader:</span> <span class="font-medium">${t.leaderName||reg.leaderName||'—'}</span></div><div><span class="text-neutral-500 text-xs">Members:</span> <div class="mt-1">${members||'—'}</div></div><div><span class="text-neutral-500 text-xs">Repo:</span> ${repo}</div></div><div class="flex justify-end mt-4 pt-3 border-t border-white/10">${payBtn}</div></div>`;
     }).join('');
+    const countEl = document.getElementById('count-teams');
+    if (countEl) countEl.textContent = `${teams.length} active teams`;
 }
 
 function renderPendingTable(pending) {
@@ -333,7 +350,7 @@ document.getElementById('announce-btn').addEventListener('click', async () => {
 
 async function deleteAnnouncement(id) { await db.collection('announcements').doc(id).delete(); }
 
-// Export CSV
+// Export CSV (All Registrations)
 document.getElementById('export-csv').addEventListener('click', () => {
     const teamMap = {}; allTeams.forEach(t => teamMap[t.leaderEmail] = t);
     let csv = 'Email,Leader,USN,Members,College,Branch,Semester,Section,Mobile,Team Name,GitHub Repo,Status\n';
@@ -345,6 +362,108 @@ document.getElementById('export-csv').addEventListener('click', () => {
     const blob = new Blob([csv], {type:'text/csv'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'hackathon_data_export.csv'; a.click();
 });
+
+// Export Active Teams as Excel-compatible CSV
+function downloadTeamsExcel() {
+    // BOM for Excel to recognise UTF-8 (handles special chars like ₹)
+    const BOM = '\uFEFF';
+    const headers = ['Team Name', 'Team Leader Name', 'Leader USN', 'Team Members (Name - USN)', 'College', 'Branch / Stream', 'Semester', 'Section', 'Mobile No', 'GitHub Repo'];
+    const rows = allTeams.map(t => {
+        const reg = allRegs.find(r => r.email === t.leaderEmail) || {};
+        const leaderName = t.leaderName || reg.leaderName || '';
+        const leaderUSN  = reg.leaderUSN || '';
+        // Members: "Name (USN)" joined by " | "
+        const membersList = (reg.members || []).map(m => {
+            const usn = m.usn || m.USN || '';
+            return usn ? `${m.name} (${usn})` : m.name;
+        }).join(' | ');
+        return [
+            t.teamName || '',
+            leaderName,
+            leaderUSN,
+            membersList || '—',
+            reg.college || '',
+            reg.branch  || '',
+            reg.semester|| '',
+            reg.section || '',
+            reg.mobile  || '',
+            t.githubRepo|| ''
+        ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',');
+    });
+    const csv = BOM + headers.map(h => `"${h}"`).join(',') + '\n' + rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `active_teams_aavishkar_pravah_2.csv`;
+    a.click();
+}
+
+// Toggle payment verified on a team doc
+async function togglePayment(docId, current) {
+    await db.collection('teams').doc(docId).update({ paymentVerified: !current });
+    loadData();
+}
+
+// Override registration status (active / pending / null=reset)
+async function overrideStatus(docId, status) {
+    const upd = status === null
+        ? { statusOverride: firebase.firestore.FieldValue.delete() }
+        : { statusOverride: status };
+    await db.collection('registrations').doc(docId).update(upd);
+    loadData();
+}
+
+// ── Add Team Manually ──
+function openAddTeamModal() {
+    ['m-teamname','m-email','m-leadername','m-usn','m-mobile','m-college','m-branch','m-sem','m-section'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    const paid = document.getElementById('m-paid'); if(paid) paid.checked = false;
+    document.getElementById('m-members-wrap').innerHTML = '';
+    document.getElementById('m-err').classList.add('hidden');
+    document.getElementById('add-team-modal').style.display = 'flex';
+}
+function closeAddTeamModal() { document.getElementById('add-team-modal').style.display = 'none'; }
+function addMemberField() {
+    const wrap = document.getElementById('m-members-wrap');
+    const idx = wrap.children.length;
+    wrap.insertAdjacentHTML('beforeend', `<div class="flex gap-2 items-center"><input type="text" placeholder="Member name" class="flex-1 rounded-lg px-3 py-2 text-sm" data-mi="${idx}"><input type="text" placeholder="USN (optional)" class="w-36 rounded-lg px-3 py-2 text-sm" data-mu="${idx}"><button onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-300 ml-1"><span class="material-symbols-outlined" style="font-size:18px;">remove_circle</span></button></div>`);
+}
+async function submitAddTeam() {
+    const err = document.getElementById('m-err');
+    const v = id => document.getElementById(id).value.trim();
+    const teamName = v('m-teamname'), email = v('m-email'), leaderName = v('m-leadername');
+    if (!teamName || !email || !leaderName) { err.textContent='❌ Team Name, Email & Leader Name are required.'; err.classList.remove('hidden'); return; }
+    const members = [];
+    document.querySelectorAll('[data-mi]').forEach((el,i) => { const name=el.value.trim(); if(name) members.push({name, usn: document.querySelector(`[data-mu="${i}"]`)?.value.trim()||''}); });
+    const isPaid = document.getElementById('m-paid').checked;
+    try {
+        await db.collection('registrations').add({ email, leaderName, leaderUSN: v('m-usn'), mobile: v('m-mobile'), college: v('m-college'), branch: v('m-branch'), semester: v('m-sem'), section: v('m-section'), members, manualEntry: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+        await db.collection('teams').add({ teamName, leaderEmail: email, leaderName, paymentVerified: isPaid, githubRepo: '', manualEntry: true, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+        closeAddTeamModal(); loadData();
+    } catch(e) { err.textContent='❌ '+e.message; err.classList.remove('hidden'); }
+}
 </script>
+
+<!-- Add Team Manually Modal -->
+<div id="add-team-modal" class="fixed inset-0 z-[999] items-center justify-center bg-black/75 backdrop-blur-sm p-4" style="display:none;">
+  <div class="bg-[#131314] border border-amber-500/20 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
+    <button onclick="closeAddTeamModal()" class="absolute top-4 right-4 text-neutral-500 hover:text-white"><span class="material-symbols-outlined">close</span></button>
+    <h2 class="font-serif text-xl font-bold text-amber-500 mb-5">Add Team Manually</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="col-span-2"><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Team Name *</label><input id="m-teamname" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="e.g. Code Breakers"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Leader Email *</label><input id="m-email" type="email" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="leader@email.com"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Leader Name *</label><input id="m-leadername" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="Full name"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Leader USN</label><input id="m-usn" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="1HK22IS001"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Mobile</label><input id="m-mobile" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="9876543210"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">College</label><input id="m-college" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Branch</label><input id="m-branch" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="ISE / CSE"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Semester</label><input id="m-sem" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="6"></div>
+      <div><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-1">Section</label><input id="m-section" type="text" class="w-full rounded-lg px-4 py-2.5 text-sm" placeholder="A"></div>
+    </div>
+    <div class="mt-4"><label class="block text-xs uppercase tracking-widest text-neutral-500 mb-2">Members</label><div id="m-members-wrap" class="space-y-2"></div><button onclick="addMemberField()" class="mt-2 text-xs text-amber-500 border border-amber-500/30 px-3 py-1.5 rounded hover:bg-amber-500/10 transition">+ Add Member</button></div>
+    <div class="mt-4 flex items-center gap-3"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="m-paid" class="accent-amber-500"><span class="text-xs text-neutral-300">Mark as Payment Verified</span></label></div>
+    <p id="m-err" class="text-xs text-red-400 mt-3 hidden"></p>
+    <div class="mt-5 flex justify-end gap-3"><button onclick="closeAddTeamModal()" class="text-xs text-neutral-400 border border-white/10 px-4 py-2 rounded hover:bg-white/5 transition">Cancel</button><button onclick="submitAddTeam()" class="text-xs bg-amber-500 text-black font-bold px-6 py-2 rounded hover:bg-amber-400 transition uppercase tracking-widest">Add Team</button></div>
+  </div>
+</div>
 </body>
 </html>
