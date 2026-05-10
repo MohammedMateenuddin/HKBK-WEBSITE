@@ -392,15 +392,18 @@ async function deleteAnnouncement(id) { await db.collection('announcements').doc
 
 // Export CSV (All Registrations)
 document.getElementById('export-csv').addEventListener('click', () => {
+    const BOM = '\uFEFF';
     const teamMap = {}; allTeams.forEach(t => teamMap[t.leaderEmail] = t);
-    let csv = 'Email,Leader,USN,Members,College,Branch,Semester,Section,Mobile,Team Name,GitHub Repo,Status\n';
+    let csv = '"Email","Leader","Leader USN","Member 1 Name","Member 1 USN","Member 2 Name","Member 2 USN","Member 3 Name","Member 3 USN","College","Branch","Semester","Section","Mobile","Team Name","GitHub Repo","Status"\n';
     allRegs.forEach(r => {
         const t = teamMap[r.email];
-        const members = (r.members||[]).map(m=>m.name).join('; ');
-        csv += `"${r.email}","${r.leaderName}","${r.leaderUSN}","${members}","${r.college||''}","${r.branch||''}","${r.semester||''}","${r.section||''}","${r.mobile||''}","${t?t.teamName:''}","${t?t.githubRepo||'':''}","${t?'Active':'Pending'}"\n`;
+        const ms = r.members || [];
+        const m1 = ms[0] || {}; const m2 = ms[1] || {}; const m3 = ms[2] || {};
+        const esc = v => `"${String(v||'').replace(/"/g,'""')}"`;
+        csv += [esc(r.email),esc(r.leaderName),esc(r.leaderUSN),esc(m1.name),esc(m1.usn||m1.USN),esc(m2.name),esc(m2.usn||m2.USN),esc(m3.name),esc(m3.usn||m3.USN),esc(r.college),esc(r.branch),esc(r.semester),esc(r.section),esc(r.mobile),esc(t?t.teamName:''),esc(t?t.githubRepo||'':''),esc(t?'Active':'Pending')].join(',') + '\n';
     });
-    const blob = new Blob([csv], {type:'text/csv'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'hackathon_data_export.csv'; a.click();
+    const blob = new Blob([BOM + csv], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'hackathon_all_registrations.csv'; a.click();
 });
 
 // Export Active Teams as Excel-compatible CSV
