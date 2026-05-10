@@ -1,0 +1,14 @@
+{
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "installCommand": null,
+  "framework": null,
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/registration", "destination": "/registration.html" },
+    { "source": "/details", "destination": "/details.html" },
+    { "source": "/rewards", "destination": "/rewards.html" }
+  ]
+}
