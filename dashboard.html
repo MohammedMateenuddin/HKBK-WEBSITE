@@ -200,39 +200,51 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// Enable offline cache — repeat visits load instantly from device storage
+db.enablePersistence({ synchronizeTabs: true }).catch(() => {});
+
 let currentUser = null;
 let regData = null;
 
+// Safety net: if Firebase hangs for 8s, redirect to login instead of staying stuck
+const dashTimeout = setTimeout(() => { window.location.href = 'login.html'; }, 8000);
+
 auth.onAuthStateChanged(async (user) => {
-    if (!user) { window.location.href = 'login.html'; return; }
+    if (!user) { clearTimeout(dashTimeout); window.location.href = 'login.html'; return; }
     currentUser = user;
     const email = user.email.toLowerCase().trim();
 
-    // Fetch registration data
-    const regDoc = await db.collection('registrations').doc(email).get();
-    if (!regDoc.exists) { await auth.signOut(); window.location.href = 'login.html'; return; }
-    regData = regDoc.data();
+    try {
+        // Fetch registration data
+        const regDoc = await db.collection('registrations').doc(email).get();
+        if (!regDoc.exists) { clearTimeout(dashTimeout); await auth.signOut(); window.location.href = 'login.html'; return; }
+        regData = regDoc.data();
 
-    // Show avatar in nav
-    if (user.photoURL) {
-        document.getElementById('user-avatar').src = user.photoURL;
-        document.getElementById('user-avatar').classList.remove('hidden');
-    }
-    document.getElementById('user-name-nav').textContent = regData.leaderName.split(' ')[0];
-    document.getElementById('user-name-nav').classList.remove('hidden');
+        // Show avatar in nav
+        if (user.photoURL) {
+            document.getElementById('user-avatar').src = user.photoURL;
+            document.getElementById('user-avatar').classList.remove('hidden');
+        }
+        document.getElementById('user-name-nav').textContent = regData.leaderName.split(' ')[0];
+        document.getElementById('user-name-nav').classList.remove('hidden');
 
-    // Check if team name exists
-    const teamDoc = await db.collection('teams').doc(email).get();
-    document.getElementById('loading-screen').classList.add('hidden');
+        // Check if team name exists
+        const teamDoc = await db.collection('teams').doc(email).get();
+        clearTimeout(dashTimeout);
+        document.getElementById('loading-screen').classList.add('hidden');
 
-    if (!teamDoc.exists || !teamDoc.data().teamName) {
-        // Show team name modal
-        const modal = document.getElementById('teamname-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.getElementById('teamname-input').focus();
-    } else {
-        renderDashboard(teamDoc.data().teamName, teamDoc.data().githubRepo || '');
+        if (!teamDoc.exists || !teamDoc.data().teamName) {
+            const modal = document.getElementById('teamname-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('teamname-input').focus();
+        } else {
+            renderDashboard(teamDoc.data().teamName, teamDoc.data().githubRepo || '');
+        }
+    } catch (e) {
+        clearTimeout(dashTimeout);
+        // Network error — redirect to login
+        window.location.href = 'login.html';
     }
 });
 
