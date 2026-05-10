@@ -4,3 +4,5 @@ firebase/serviceAccountKey.json
 .vercel/
 .env
 *.log
+# trigger
+
