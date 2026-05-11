@@ -91,6 +91,8 @@ th{position:sticky;top:0;z-index:10;background:#131314}
     <select id="sort-box" class="rounded-lg px-4 py-2.5 text-sm cursor-pointer border border-white/10 bg-[#1e1e20]">
         <option value="newest">Sort: Newest First</option>
         <option value="oldest">Sort: Oldest First</option>
+        <option value="team-asc">Sort: Team Number (1-99)</option>
+        <option value="team-desc">Sort: Team Number (99-1)</option>
         <option value="az">Sort: Alphabetical (A-Z)</option>
     </select>
 </div>
@@ -285,6 +287,11 @@ function updateViews() {
 
     // Sorting Logic
     const sortFn = (a, b) => {
+        if (sortMode === 'team-asc' || sortMode === 'team-desc') {
+            const numA = parseInt(a.teamNumber) || 999999;
+            const numB = parseInt(b.teamNumber) || 999999;
+            return sortMode === 'team-asc' ? numA - numB : numB - numA;
+        }
         if (sortMode === 'az') {
             const nameA = a.teamName || a.leaderName || '';
             const nameB = b.teamName || b.leaderName || '';
@@ -297,17 +304,10 @@ function updateViews() {
         return sortMode === 'newest' ? timeB - timeA : timeA - timeB;
     };
 
-    if (sortMode === 'newest') {
-        filteredRegs.reverse();
-        pending.reverse();
-    }
-
     filteredTeams.sort(sortFn);
     subs.sort(sortFn);
-    if (sortMode === 'az') {
-        filteredRegs.sort(sortFn);
-        pending.sort(sortFn);
-    }
+    filteredRegs.sort(sortFn);
+    pending.sort(sortFn);
 
     renderAllTable(filteredRegs, allTeams);
     renderTeamsGrid(filteredTeams);
