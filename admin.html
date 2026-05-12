@@ -282,9 +282,9 @@ function updateViews() {
 
     let filteredRegs = allRegs.filter(r => {
         if (!q) return true;
-        // If query is a number, check for exact team number match first
         const qNum = parseInt(q);
-        if (!isNaN(qNum) && r.teamNumber === qNum) return true;
+        const rNum = parseInt(r.teamNumber);
+        if (!isNaN(qNum) && rNum === qNum) return true;
         
         const searchStr = `${r.leaderName} ${r.email} ${r.leaderUSN} ${r.college} ${r.branch}`.toLowerCase();
         return searchStr.includes(q);
@@ -292,7 +292,12 @@ function updateViews() {
     let filteredTeams = allTeams.filter(t => {
         if (!q) return true;
         const qNum = parseInt(q);
-        if (!isNaN(qNum) && t.teamNumber === qNum) return true;
+        
+        // Find corresponding registration to get team number
+        const reg = allRegs.find(r => r.email === t.leaderEmail) || {};
+        const rNum = parseInt(t.teamNumber || reg.teamNumber);
+        
+        if (!isNaN(qNum) && rNum === qNum) return true;
 
         const searchStr = `${t.teamName} ${t.leaderName} ${t.leaderEmail}`.toLowerCase();
         return searchStr.includes(q);
