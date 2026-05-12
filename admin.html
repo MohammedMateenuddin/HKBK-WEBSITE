@@ -87,7 +87,7 @@ th{position:sticky;top:0;z-index:10;background:#131314}
 
 <!-- Search and Sort -->
 <div class="mb-4 flex flex-wrap gap-4 items-center">
-    <input type="text" id="search-box" placeholder="🔍  Search by email, name, team, college..." class="w-full md:w-96 rounded-lg px-4 py-2.5 text-sm">
+    <input type="text" id="search-box" placeholder="🔍  Search by team #, email, name, college..." class="w-full md:w-96 rounded-lg px-4 py-2.5 text-sm">
     <select id="sort-box" class="rounded-lg px-4 py-2.5 text-sm cursor-pointer border border-white/10 bg-[#1e1e20]">
         <option value="newest">Sort: Newest First</option>
         <option value="oldest">Sort: Oldest First</option>
@@ -280,8 +280,14 @@ function updateViews() {
     const sortMode = document.getElementById('sort-box').value;
     const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
 
-    let filteredRegs = allRegs.filter(r => JSON.stringify(r).toLowerCase().includes(q));
-    let filteredTeams = allTeams.filter(t => JSON.stringify(t).toLowerCase().includes(q));
+    let filteredRegs = allRegs.filter(r => {
+        const searchStr = `${r.teamNumber} ${r.leaderName} ${r.email} ${r.leaderUSN} ${r.college} ${r.branch}`.toLowerCase();
+        return searchStr.includes(q) || JSON.stringify(r).toLowerCase().includes(q);
+    });
+    let filteredTeams = allTeams.filter(t => {
+        const searchStr = `${t.teamNumber} ${t.teamName} ${t.leaderName} ${t.leaderEmail}`.toLowerCase();
+        return searchStr.includes(q) || JSON.stringify(t).toLowerCase().includes(q);
+    });
     let pending = filteredRegs.filter(r => !teamEmails.has(r.email));
     let subs = filteredTeams.filter(t => t.githubRepo);
 
