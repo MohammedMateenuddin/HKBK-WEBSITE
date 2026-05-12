@@ -281,12 +281,21 @@ function updateViews() {
     const teamEmails = new Set(allTeams.map(t => t.leaderEmail));
 
     let filteredRegs = allRegs.filter(r => {
-        const searchStr = `${r.teamNumber} ${r.leaderName} ${r.email} ${r.leaderUSN} ${r.college} ${r.branch}`.toLowerCase();
-        return searchStr.includes(q) || JSON.stringify(r).toLowerCase().includes(q);
+        if (!q) return true;
+        // If query is a number, check for exact team number match first
+        const qNum = parseInt(q);
+        if (!isNaN(qNum) && r.teamNumber === qNum) return true;
+        
+        const searchStr = `${r.leaderName} ${r.email} ${r.leaderUSN} ${r.college} ${r.branch}`.toLowerCase();
+        return searchStr.includes(q);
     });
     let filteredTeams = allTeams.filter(t => {
-        const searchStr = `${t.teamNumber} ${t.teamName} ${t.leaderName} ${t.leaderEmail}`.toLowerCase();
-        return searchStr.includes(q) || JSON.stringify(t).toLowerCase().includes(q);
+        if (!q) return true;
+        const qNum = parseInt(q);
+        if (!isNaN(qNum) && t.teamNumber === qNum) return true;
+
+        const searchStr = `${t.teamName} ${t.leaderName} ${t.leaderEmail}`.toLowerCase();
+        return searchStr.includes(q);
     });
     let pending = filteredRegs.filter(r => !teamEmails.has(r.email));
     let subs = filteredTeams.filter(t => t.githubRepo);
